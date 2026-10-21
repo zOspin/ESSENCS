@@ -14,6 +14,7 @@ import {
   getProducts,
   sortProducts,
 } from './services/productService.js';
+import { BRAND } from './config/constants.js';
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -63,9 +64,15 @@ export default function App() {
       <main className="flex-1">
         <section className="relative overflow-hidden border-b border-gold-line">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,175,55,0.18),transparent_60%)]" />
-          <div className="relative mx-auto max-w-4xl px-4 py-24 text-center sm:py-32">
-            <p className="text-[10px] uppercase tracking-[0.5em] text-muted">Haute Parfumerie</p>
-            <h1 className="mt-6 font-display text-4xl leading-tight tracking-[0.12em] text-gold-gradient sm:text-6xl">
+          <div className="relative mx-auto max-w-4xl px-4 py-16 text-center sm:py-24">
+            <img
+              src={BRAND.logo}
+              alt={`${BRAND.name} ${BRAND.tagline}`}
+              width="720"
+              height="720"
+              className="fade-in mx-auto w-56 mix-blend-screen sm:w-72"
+            />
+            <h1 className="mt-8 font-display text-4xl leading-tight tracking-[0.12em] text-gold-gradient sm:text-6xl">
               El arte invisible de la presencia
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-muted">

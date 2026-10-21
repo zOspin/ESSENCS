@@ -1,5 +1,5 @@
 ---
-project: ELIZANA PERFUMERÍA HAUTE
+project: ESSENCS PERFUMERÍA
 type: PRD / System Specification
 status: Active
 architecture: Clean Architecture (React + Tailwind CSS)
@@ -13,9 +13,9 @@ tags:
   - architecture
 ---
 
-# 👑 PRD: ELIZANA PERFUMERÍA HAUTE
+# 👑 PRD: ESSENCS PERFUMERÍA
 
-> **Propósito:** Documento de especificación técnica y de diseño maestro para el desarrollo fullstack de la plataforma e-commerce de ultra lujo ELIZANA PERFUMERÍA HAUTE. Diseñado para servir como base de conocimiento y contexto para asistentes IA (Claude, ChatGPT, Cursor).
+> **Propósito:** Documento de especificación técnica y de diseño maestro para el desarrollo fullstack de la plataforma e-commerce de ultra lujo ESSENCS PERFUMERÍA. Diseñado para servir como base de conocimiento y contexto para asistentes IA (Claude, ChatGPT, Cursor).
 
 ---
 
@@ -52,7 +52,7 @@ tags:
 ## 📁 3. Arquitectura de Archivos (Clean Architecture)
 
 ```text
-elizana-perfumeria/
+essencs-perfumeria/
 ├── README.md                      # Documentación y guía de instalación
 ├── package.json                   # Dependencias del proyecto
 ├── public/                        # Assets estáticos

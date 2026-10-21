@@ -1,6 +1,9 @@
 export const BRAND = {
-  name: 'ELIZANA',
-  tagline: 'Perfumería Haute',
+  name: 'ESSENCS',
+  tagline: 'Perfumería',
+  email: 'hola@essencs.com',
+  logo: '/assets/brand/essencs-logo.png',
+  isotipo: '/assets/brand/essencs-isotipo.png',
 };
 
 export const CURRENCY = 'USD';

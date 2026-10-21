@@ -1,4 +1,4 @@
-# ELIZANA Perfumería Haute
+# ESSENCS Perfumería
 
 E-commerce de alta perfumería (React + Vite + Tailwind CSS v4). La especificación completa está en [[PERFUMERIA]].
 
@@ -29,6 +29,8 @@ src/
     ├── catalog/  ControlBar, ProductCard, ProductGrid, OlfactoryPyramid, PerfumeBottle (SVG)
     └── modals/   CartDrawer, FilterModal, ProductDetailModal
 ```
+
+El logotipo vive en `public/assets/brand/` (`essencs-logo.png` completo, `essencs-isotipo.png` para el encabezado); los originales en alta resolución están en la raíz. Nombre, lema y correo de la marca se cambian en `src/config/constants.js` (`BRAND`).
 
 Los colores de marca están en `src/styles/globals.css` (bloque `@theme`) y se usan como utilidades de Tailwind: `bg-ink`, `bg-surface`, `text-gold`, `border-gold-line`, `text-gold-gradient`, `shadow-glow`.
 

@@ -19,7 +19,7 @@ export default function Footer() {
         </div>
         <div className="space-y-3">
           <h3 className="font-display text-sm tracking-luxe text-gold">Contacto</h3>
-          <p className="text-sm text-muted">hola@elizana.com</p>
+          <p className="text-sm text-muted">{BRAND.email}</p>
           <p className="text-sm text-muted">Atención personalizada de lunes a sábado</p>
         </div>
       </div>
