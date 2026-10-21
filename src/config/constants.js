@@ -2,6 +2,8 @@ export const BRAND = {
   name: 'ESSENCS',
   tagline: 'Perfumería',
   email: 'hola@essencs.com',
+  // Número con indicativo de país, solo dígitos. Ej. Colombia: '573001234567'.
+  whatsapp: '573024316353',
   logo: '/assets/brand/essencs-logo.png',
   isotipo: '/assets/brand/essencs-isotipo.png',
 };

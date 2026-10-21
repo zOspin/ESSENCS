@@ -14,6 +14,8 @@ import {
   getProducts,
   sortProducts,
 } from './services/productService.js';
+import { buildOrderMessage, getWhatsAppUrl } from './services/whatsappService.js';
+import { loadCart, saveCart } from './utils/cartStorage.js';
 import { BRAND } from './config/constants.js';
 
 export default function App() {
@@ -21,13 +23,27 @@ export default function App() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sortBy, setSortBy] = useState('featured');
   const [cart, setCart] = useState([]);
+  const [cartLoaded, setCartLoaded] = useState(false);
   const [selected, setSelected] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getProducts().then((list) => {
+      setProducts(list);
+      setCart(loadCart(list));
+      setCartLoaded(true);
+    });
   }, []);
+
+  // No guardar hasta haber leído la bolsa guardada, o se borraría con la bolsa vacía inicial.
+  useEffect(() => {
+    if (cartLoaded) saveCart(cart);
+  }, [cart, cartLoaded]);
+
+  const checkout = useCallback(() => {
+    window.open(getWhatsAppUrl(buildOrderMessage(cart)), '_blank', 'noopener');
+  }, [cart]);
 
   const visible = useMemo(
     () => sortProducts(filterProducts(products, filters), sortBy),
@@ -115,7 +131,13 @@ export default function App() {
       <Footer />
 
       {cartOpen && (
-        <CartDrawer items={cart} onClose={closeCart} onChangeQty={changeQty} onRemove={removeFromCart} />
+        <CartDrawer
+          items={cart}
+          onClose={closeCart}
+          onChangeQty={changeQty}
+          onRemove={removeFromCart}
+          onCheckout={checkout}
+        />
       )}
       {filtersOpen && <FilterModal filters={filters} onApply={setFilters} onClose={closeFilters} />}
       {selected && <ProductDetailModal product={selected} onClose={closeDetail} onAddToCart={addToCart} />}
