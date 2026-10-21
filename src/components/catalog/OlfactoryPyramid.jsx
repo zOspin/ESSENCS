@@ -5,9 +5,11 @@ const TIERS = [
 ];
 
 export default function OlfactoryPyramid({ pyramid }) {
+  const tiers = TIERS.filter((tier) => pyramid[tier.key]?.length > 0);
+
   return (
     <ol className="flex flex-col items-center gap-3">
-      {TIERS.map((tier, i) => (
+      {tiers.map((tier, i) => (
         <li
           key={tier.key}
           className={`rise-in ${tier.width} border border-gold-line bg-ink-2/70 px-4 py-4 text-center`}

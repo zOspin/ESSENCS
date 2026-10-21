@@ -1,23 +1,29 @@
 import { BRAND } from '../config/constants.js';
-import { formatPrice } from '../utils/formatters.js';
+import { formatPrice, fullName, hasPrice } from '../utils/formatters.js';
 import { getCartTotals } from './productService.js';
 
 export function buildOrderMessage(items) {
-  const { subtotal, shipping, total } = getCartTotals(items);
-  const lines = items.map(
-    ({ product, qty }) => `• ${product.name} (${product.subtitle}) x${qty} — ${formatPrice(product.price * qty)}`,
-  );
+  const { subtotal, hasUnpriced } = getCartTotals(items);
+  const lines = items.map(({ product, qty }) => {
+    const detail = product.subtitle ? ` (${product.subtitle})` : '';
+    const price = hasPrice(product) ? formatPrice(product.price * qty) : 'precio a confirmar';
+    return `• ${fullName(product)}${detail} x${qty} — ${price}`;
+  });
+
+  const totals =
+    subtotal > 0
+      ? [`${hasUnpriced ? 'Subtotal de los precios publicados' : 'Subtotal'}: ${formatPrice(subtotal)}`]
+      : [];
 
   return [
     `Hola ${BRAND.name}, quiero hacer este pedido:`,
     '',
     ...lines,
     '',
-    `Subtotal: ${formatPrice(subtotal)}`,
-    `Envío: ${shipping === 0 ? 'Cortesía' : formatPrice(shipping)}`,
-    `Total: ${formatPrice(total)}`,
+    ...totals,
+    'Envío: a coordinar',
     '',
-    '¿Me confirmas disponibilidad y forma de pago?',
+    '¿Me confirmas disponibilidad, precio final y forma de pago?',
   ].join('\n');
 }
 

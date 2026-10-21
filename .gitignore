@@ -2,3 +2,5 @@ node_modules
 dist
 .obsidian/workspace*.json
 .claude
+# Originales de los videos; la web usa las copias de public/assets/videos
+/VIDEOS/

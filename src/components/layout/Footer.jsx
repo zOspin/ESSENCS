@@ -8,13 +8,13 @@ export default function Footer() {
         <div className="space-y-4">
           <Logo />
           <p className="max-w-xs text-sm leading-relaxed text-muted">
-            Fragancias de autor compuestas con materias primas excepcionales.
+            Perfumes de diseñador y perfumería árabe.
           </p>
         </div>
         <div id="maison" className="space-y-3">
           <h3 className="font-display text-sm tracking-luxe text-gold">La Maison</h3>
           <p className="text-sm leading-relaxed text-muted">
-            Cada creación nace en pequeñas series, macerada durante semanas antes de llegar a su frasco.
+            Seleccionamos cada fragancia y te asesoramos para que encuentres la que va contigo.
           </p>
         </div>
         <div className="space-y-3">

@@ -8,20 +8,19 @@ export const BRAND = {
   isotipo: '/assets/brand/essencs-isotipo.png',
 };
 
-export const CURRENCY = 'USD';
-export const LOCALE = 'es-ES';
+export const CURRENCY = 'COP';
+export const LOCALE = 'es-CO';
 
-export const SHIPPING = {
-  flatRate: 12,
-  freeFrom: 250,
-};
+// Catálogo servido desde public/; el panel de administración lo reescribe en desarrollo.
+export const CATALOG_URL = '/catalog.json';
 
-export const FAMILIES = ['Oriental', 'Floral', 'Amaderada', 'Cítrica', 'Chipre'];
+export const FAMILIES = ['Ámbar', 'Amaderada', 'Aromática', 'Cítrica', 'Floral', 'Frutal', 'Gourmand'];
 
-export const PRICE_RANGE = { min: 0, max: 300 };
+export const GENDERS = ['Hombre', 'Mujer', 'Unisex'];
 
 export const SORT_OPTIONS = [
   { value: 'featured', label: 'Destacados' },
+  { value: 'name', label: 'Nombre (A-Z)' },
   { value: 'price-asc', label: 'Menor a mayor precio' },
   { value: 'price-desc', label: 'Mayor a menor precio' },
 ];
@@ -31,8 +30,3 @@ export const NAV_LINKS = [
   { href: '#maison', label: 'La Maison' },
   { href: '#contacto', label: 'Contacto' },
 ];
-
-// Reservado para cuando exista backend.
-export const API_ROUTES = {
-  products: '/api/products',
-};

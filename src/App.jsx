@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
 import ControlBar from './components/catalog/ControlBar.jsx';
@@ -11,6 +11,7 @@ import {
   countActiveFilters,
   filterProducts,
   getCartTotals,
+  getPriceBounds,
   getProducts,
   sortProducts,
 } from './services/productService.js';
@@ -18,23 +19,51 @@ import { buildOrderMessage, getWhatsAppUrl } from './services/whatsappService.js
 import { loadCart, saveCart } from './utils/cartStorage.js';
 import { BRAND } from './config/constants.js';
 
+// El panel de administración solo existe con `npm run dev`; en la web publicada no se incluye.
+const ADMIN_ENABLED = import.meta.env.DEV;
+// Import dinámico condicionado: el build de producción elimina el panel por completo.
+const AdminPanel = ADMIN_ENABLED ? lazy(() => import('./components/admin/AdminPanel.jsx')) : null;
+const isAdminHash = () => ADMIN_ENABLED && window.location.hash === '#admin';
+
 export default function App() {
   const [products, setProducts] = useState([]);
+  const [loadError, setLoadError] = useState('');
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [gender, setGender] = useState(null);
   const [sortBy, setSortBy] = useState('featured');
   const [cart, setCart] = useState([]);
   const [cartLoaded, setCartLoaded] = useState(false);
   const [selected, setSelected] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(isAdminHash);
 
   useEffect(() => {
-    getProducts().then((list) => {
-      setProducts(list);
-      setCart(loadCart(list));
-      setCartLoaded(true);
-    });
+    getProducts()
+      .then((list) => {
+        setProducts(list);
+        setCart(loadCart(list));
+        setCartLoaded(true);
+      })
+      .catch((err) => setLoadError(err.message));
   }, []);
+
+  useEffect(() => {
+    if (!ADMIN_ENABLED) return;
+    const onHash = () => setAdminOpen(isAdminHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  // Si el catálogo cambia (p. ej. un precio editado), la bolsa usa los datos nuevos
+  // y suelta los perfumes que ya no existen.
+  useEffect(() => {
+    setCart((items) =>
+      items
+        .map((i) => ({ ...i, product: products.find((p) => p.id === i.product.id) }))
+        .filter((i) => i.product),
+    );
+  }, [products]);
 
   // No guardar hasta haber leído la bolsa guardada, o se borraría con la bolsa vacía inicial.
   useEffect(() => {
@@ -46,9 +75,10 @@ export default function App() {
   }, [cart]);
 
   const visible = useMemo(
-    () => sortProducts(filterProducts(products, filters), sortBy),
-    [products, filters, sortBy],
+    () => sortProducts(filterProducts(products, filters, gender), sortBy),
+    [products, filters, gender, sortBy],
   );
+  const priceBounds = useMemo(() => getPriceBounds(products), [products]);
 
   const addToCart = useCallback((product) => {
     setCart((items) => {
@@ -73,6 +103,14 @@ export default function App() {
   const closeFilters = useCallback(() => setFiltersOpen(false), []);
   const closeDetail = useCallback(() => setSelected(null), []);
 
+  if (adminOpen) {
+    return (
+      <Suspense fallback={null}>
+        <AdminPanel products={products} onProductsChange={setProducts} />
+      </Suspense>
+    );
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header cartCount={getCartTotals(cart).count} onOpenCart={() => setCartOpen(true)} />
@@ -92,7 +130,8 @@ export default function App() {
               El arte invisible de la presencia
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-muted">
-              Fragancias de autor compuestas con materias primas excepcionales y maceradas en pequeñas series.
+              Perfumes de diseñador y perfumería árabe, seleccionados para ti. Elige tus favoritos y te atendemos
+              personalmente por WhatsApp.
             </p>
             <a
               href="#coleccion"
@@ -112,18 +151,29 @@ export default function App() {
           <ControlBar
             resultCount={visible.length}
             activeFilters={countActiveFilters(filters)}
+            gender={gender}
+            onGenderChange={setGender}
             sortBy={sortBy}
             onSortChange={setSortBy}
             onOpenFilters={() => setFiltersOpen(true)}
           />
 
           <div className="mt-8">
-            <ProductGrid
-              products={visible}
-              onExplore={setSelected}
-              onAddToCart={addToCart}
-              onResetFilters={() => setFilters(DEFAULT_FILTERS)}
-            />
+            {loadError ? (
+              <p className="border border-gold-line py-20 text-center text-sm text-muted">
+                No pudimos cargar el catálogo. Recarga la página o escríbenos por WhatsApp.
+              </p>
+            ) : (
+              <ProductGrid
+                products={visible}
+                onExplore={setSelected}
+                onAddToCart={addToCart}
+                onResetFilters={() => {
+                  setFilters(DEFAULT_FILTERS);
+                  setGender(null);
+                }}
+              />
+            )}
           </div>
         </section>
       </main>
@@ -139,8 +189,19 @@ export default function App() {
           onCheckout={checkout}
         />
       )}
-      {filtersOpen && <FilterModal filters={filters} onApply={setFilters} onClose={closeFilters} />}
+      {filtersOpen && (
+        <FilterModal filters={filters} priceBounds={priceBounds} onApply={setFilters} onClose={closeFilters} />
+      )}
       {selected && <ProductDetailModal product={selected} onClose={closeDetail} onAddToCart={addToCart} />}
+
+      {ADMIN_ENABLED && (
+        <a
+          href="#admin"
+          className="fixed bottom-4 left-4 z-30 border border-gold-line bg-ink/90 px-4 py-2 text-[10px] uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
+        >
+          Administrar catálogo
+        </a>
+      )}
     </div>
   );
 }
