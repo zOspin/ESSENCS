@@ -14,12 +14,13 @@ npm run dev     # servidor de desarrollo en http://localhost:5173
 npm run build   # compilación de producción en dist/
 ```
 
-## Administrar el catálogo (perfumes y precios)
+## Administrar el catálogo
 
-1. Ejecuta `npm run dev` y abre http://localhost:5173/#admin (o el botón «Administrar catálogo» abajo a la izquierda).
+La tienda no publica precios: cada perfume muestra una descripción breve y el precio se confirma por WhatsApp.
+
+1. Ejecuta `npm run dev` y abre http://localhost:5173/#admin.
 2. Desde ahí puedes:
-   - **Editar precios** directamente en la lista: escribe el precio en pesos y pulsa Enter. Vacío = «Precio a consultar».
-   - **Agregar perfume**: foto, marca, nombre, presentación, precio, para quién, familia y notas (opcional).
+   - **Agregar perfume**: foto, marca, nombre, presentación, descripción breve, para quién, familia y notas (opcional).
    - **Editar** o **eliminar** un perfume, y marcarlo como **Destacado** (aparece primero).
 3. Los cambios se guardan en `public/catalog.json` y las fotos en `public/assets/products/`.
 4. Para que lleguen a la web publicada, súbelos a GitHub (`git add -A`, `git commit`, `git push`).

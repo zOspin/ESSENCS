@@ -10,7 +10,7 @@ const EMPTY = {
   brand: '',
   name: '',
   subtitle: 'Eau de Parfum - 100 ml',
-  price: null,
+  description: '',
   family: FAMILIES[0],
   gender: GENDERS[0],
   featured: false,
@@ -74,7 +74,7 @@ export default function ProductForm({ product, products, onSave, onClose }) {
         brand: form.brand.trim(),
         name: form.name.trim(),
         subtitle: form.subtitle.trim(),
-        price: parsePrice(form.price),
+        description: form.description.trim(),
         image,
         olfactoryPyramid: hasNotes ? pyramid : null,
       });
@@ -122,12 +122,13 @@ export default function ProductForm({ product, products, onSave, onClose }) {
             <Field label="Presentación" wide>
               <input value={form.subtitle} onChange={set('subtitle')} placeholder="Ej. Eau de Parfum - 100 ml" className={INPUT} />
             </Field>
-            <Field label="Precio (COP)">
-              <input
-                value={form.price ?? ''}
-                onChange={set('price')}
-                inputMode="numeric"
-                placeholder="Vacío = a consultar"
+            <Field label="Descripción breve" wide>
+              <textarea
+                value={form.description}
+                onChange={set('description')}
+                rows={3}
+                maxLength={220}
+                placeholder="Ej. Calidez oriental: canela y dátiles sobre vainilla. Especiado, dulce y envolvente."
                 className={INPUT}
               />
             </Field>
@@ -191,10 +192,4 @@ function Field({ label, wide = false, children }) {
       {children}
     </label>
   );
-}
-
-// Acepta "350000", "350.000" o "$ 350.000"; vacío = sin precio.
-export function parsePrice(value) {
-  const digits = String(value ?? '').replace(/\D/g, '');
-  return digits ? Number(digits) : null;
 }

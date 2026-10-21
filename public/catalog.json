@@ -4,277 +4,634 @@
     "brand": "Versace",
     "name": "Eros Flame",
     "subtitle": "Eau de Parfum - 100 ml",
-    "price": 579900,
     "family": "Ámbar",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/versace-eros-flame.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Limón",
+        "Mandarina",
+        "Naranja amarga",
+        "Pimienta negra",
+        "Romero"
+      ],
+      "heartNotes": [
+        "Geranio",
+        "Rosa",
+        "Pimienta"
+      ],
+      "baseNotes": [
+        "Cedro",
+        "Pachulí",
+        "Vetiver",
+        "Sándalo",
+        "Haba tonka",
+        "Vainilla"
+      ]
+    },
+    "description": "Pasión en estado puro: cítricos chispeantes y pimienta negra se encienden sobre un fondo cálido de vainilla, haba tonka y maderas. Intenso y seductor."
   },
   {
     "id": "versace-eros",
     "brand": "Versace",
     "name": "Eros",
     "subtitle": "Eau de Toilette - 100 ml",
-    "price": 599900,
     "family": "Aromática",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/versace-eros.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Menta",
+        "Limón",
+        "Manzana verde"
+      ],
+      "heartNotes": [
+        "Haba tonka",
+        "Geranio",
+        "Ambroxan"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Vetiver",
+        "Musgo de roble",
+        "Cedro"
+      ]
+    },
+    "description": "Un clásico magnético: menta fresca y manzana verde abren paso a la vainilla y el haba tonka. Fresco, dulce e imposible de ignorar."
   },
   {
     "id": "jpg-le-male-le-parfum",
     "brand": "Jean Paul Gaultier",
     "name": "Le Male Le Parfum",
     "subtitle": "Le Parfum",
-    "price": 389900,
     "family": "Ámbar",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/jpg-le-male-le-parfum.jpg",
     "video": "/assets/videos/jpg-le-male-le-parfum-1.mp4",
     "hoverVideo": "/assets/videos/jpg-le-male-le-parfum-2.mp4",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Cardamomo"
+      ],
+      "heartNotes": [
+        "Lavanda",
+        "Iris"
+      ],
+      "baseNotes": [
+        "Vainilla"
+      ]
+    },
+    "description": "Elegancia intensa: cardamomo especiado, lavanda e iris empolvado se funden en una vainilla profunda. Sofisticado y envolvente, ideal para la noche."
   },
   {
     "id": "jpg-le-beau-le-parfum",
     "brand": "Jean Paul Gaultier",
     "name": "Le Beau Le Parfum",
     "subtitle": "Le Parfum",
-    "price": 579900,
     "family": "Amaderada",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/jpg-le-beau-le-parfum.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Piña",
+        "Iris",
+        "Jengibre",
+        "Ciprés"
+      ],
+      "heartNotes": [
+        "Coco",
+        "Notas amaderadas"
+      ],
+      "baseNotes": [
+        "Haba tonka",
+        "Sándalo",
+        "Ámbar"
+      ]
+    },
+    "description": "Paraíso tropical intensificado: piña jugosa e iris sobre coco cremoso, haba tonka y sándalo. Dulce, amaderado y adictivo."
   },
   {
     "id": "jpg-le-male-in-blue",
     "brand": "Jean Paul Gaultier",
     "name": "Le Male In Blue",
-    "subtitle": "",
-    "price": 519900,
+    "subtitle": "Eau de Parfum - Edición limitada",
     "family": "Aromática",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/jpg-le-male-in-blue.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Lavanda"
+      ],
+      "heartNotes": [
+        "Anís"
+      ],
+      "baseNotes": [
+        "Benjuí"
+      ]
+    },
+    "description": "Edición de colección: lavanda suave y un intenso toque de anís sobre un fondo cálido de benjuí. Aromático, distinto y con carácter."
   },
   {
     "id": "lattafa-asad-bourbon",
     "brand": "Lattafa",
     "name": "Asad Bourbon",
     "subtitle": "Eau de Parfum",
-    "price": 289900,
     "family": "Ámbar",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/lattafa-asad-bourbon.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Pimienta rosa",
+        "Lavanda",
+        "Ciruela mirabel"
+      ],
+      "heartNotes": [
+        "Cacao",
+        "Davana",
+        "Nuez moscada"
+      ],
+      "baseNotes": [
+        "Vainilla bourbon",
+        "Ámbar",
+        "Vetiver"
+      ]
+    },
+    "description": "Audaz y gourmand: pimienta rosa, lavanda y ciruela dan paso al cacao y la nuez moscada sobre vainilla bourbon y ámbar. Cálido y potente."
   },
   {
     "id": "bharara-king",
     "brand": "Bharara",
     "name": "King",
     "subtitle": "Eau de Parfum - 100 ml",
-    "price": 189900,
     "family": "Frutal",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/bharara-king.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Naranja",
+        "Bergamota",
+        "Limón"
+      ],
+      "heartNotes": [
+        "Notas frutales"
+      ],
+      "baseNotes": [
+        "Almizcle blanco",
+        "Ámbar",
+        "Vainilla"
+      ]
+    },
+    "description": "Presencia de rey: naranja, bergamota y limón con un corazón frutal sobre almizcle, ámbar y vainilla. Llama la atención a donde vayas."
   },
   {
     "id": "armaf-odyssey-mandarin",
     "brand": "Armaf",
     "name": "Odyssey Mandarin",
     "subtitle": "Eau de Parfum - Edición limitada",
-    "price": 209900,
     "family": "Cítrica",
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/armaf-odyssey-mandarin.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Salvia",
+        "Mandarina",
+        "Naranja",
+        "Azafrán"
+      ],
+      "heartNotes": [
+        "Caramelo",
+        "Haba tonka",
+        "Tagete"
+      ],
+      "baseNotes": [
+        "Ambroxan",
+        "Vetiver",
+        "Cedro"
+      ]
+    },
+    "description": "Mandarina y naranja con salvia y azafrán, endulzados con caramelo y haba tonka. Luminoso, dulce y muy masculino. Edición limitada."
   },
   {
     "id": "ariana-grande-cloud",
     "brand": "Ariana Grande",
     "name": "Cloud",
     "subtitle": "Eau de Parfum",
-    "price": 429900,
     "family": "Gourmand",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/ariana-grande-cloud.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Lavanda",
+        "Pera",
+        "Bergamota"
+      ],
+      "heartNotes": [
+        "Crema de coco",
+        "Praliné",
+        "Orquídea de vainilla"
+      ],
+      "baseNotes": [
+        "Almizcle",
+        "Maderas cremosas"
+      ]
+    },
+    "description": "Como flotar en una nube: lavanda, pera y bergamota sobre crema de coco batida y praliné. Dulce, suave y acogedor."
   },
   {
     "id": "lattafa-yara",
     "brand": "Lattafa",
     "name": "Yara",
     "subtitle": "Eau de Parfum",
-    "price": 259900,
     "family": "Floral",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-yara.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Orquídea",
+        "Heliotropo",
+        "Mandarina"
+      ],
+      "heartNotes": [
+        "Acorde gourmand",
+        "Frutas tropicales"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Almizcle",
+        "Sándalo"
+      ]
+    },
+    "description": "Dulce y femenina: orquídea, heliotropo y mandarina sobre un fondo cremoso de vainilla y almizcle. Suave, empolvada e irresistible."
   },
   {
     "id": "lattafa-yara-tous",
     "brand": "Lattafa",
     "name": "Yara Tous",
     "subtitle": "Eau de Parfum",
-    "price": 249900,
     "family": "Frutal",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-yara-tous.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Mango",
+        "Coco",
+        "Maracuyá"
+      ],
+      "heartNotes": [
+        "Jazmín",
+        "Heliotropo",
+        "Flor de azahar"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Cashmeran",
+        "Almizcle"
+      ]
+    },
+    "description": "Verano en un frasco: mango, coco y maracuyá con jazmín y azahar sobre vainilla. Tropical, alegre y luminoso."
   },
   {
     "id": "lattafa-haya",
     "brand": "Lattafa",
     "name": "Haya",
     "subtitle": "Eau de Parfum - 100 ml",
-    "price": 289900,
     "family": "Floral",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-haya.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Naranja roja",
+        "Champaña",
+        "Fresa",
+        "Mandarina",
+        "Rosa"
+      ],
+      "heartNotes": [
+        "Jazmín",
+        "Orquídea de vainilla",
+        "Gardenia"
+      ],
+      "baseNotes": [
+        "Ámbar",
+        "Sándalo",
+        "Castaña"
+      ]
+    },
+    "description": "Una celebración en cada gota: fresa, mandarina y champaña con jazmín y gardenia sobre ámbar y sándalo. Frutal, floral y radiante."
   },
   {
     "id": "lattafa-eclaire",
     "brand": "Lattafa",
     "name": "Eclaire",
     "subtitle": "Eau de Parfum - 100 ml",
-    "price": 209900,
     "family": "Gourmand",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-eclaire.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Caramelo",
+        "Leche",
+        "Azúcar"
+      ],
+      "heartNotes": [
+        "Miel",
+        "Flores blancas"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Praliné",
+        "Almizcle"
+      ]
+    },
+    "description": "Un postre hecho perfume: caramelo, leche y azúcar con miel y flores blancas sobre vainilla y praliné. Cremoso y adictivo."
   },
   {
     "id": "lattafa-badee-noble-blush",
     "brand": "Lattafa",
     "name": "Bade'e Al Oud Noble Blush",
     "subtitle": "Eau de Parfum",
-    "price": 169900,
     "family": "Floral",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-badee-noble-blush.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Leche de rosas"
+      ],
+      "heartNotes": [
+        "Merengue",
+        "Almendra"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Sándalo",
+        "Almizcle"
+      ]
+    },
+    "description": "Delicada y golosa: leche de rosas, merengue y almendra sobre vainilla, sándalo y almizcle. Suave, romántica y elegante."
   },
   {
     "id": "armaf-yum-yum",
     "brand": "Armaf",
     "name": "Yum Yum",
     "subtitle": "Eau de Parfum",
-    "price": 209900,
     "family": "Gourmand",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/armaf-yum-yum.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Frutos rojos",
+        "Cereza",
+        "Naranja",
+        "Bergamota"
+      ],
+      "heartNotes": [
+        "Vainilla",
+        "Flores blancas",
+        "Rosa"
+      ],
+      "baseNotes": [
+        "Notas empolvadas",
+        "Almizcle",
+        "Ámbar"
+      ]
+    },
+    "description": "Divertida y golosa: frutos rojos, cereza y naranja con vainilla y rosa sobre almizcle y ámbar. Dulce como un postre."
   },
   {
     "id": "rave-now-women",
     "brand": "Rave",
     "name": "Now Women",
     "subtitle": "Eau de Parfum",
-    "price": 309900,
     "family": "Floral",
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/rave-now-women.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Frutos rojos",
+        "Naranja"
+      ],
+      "heartNotes": [
+        "Malvavisco",
+        "Lirio del valle",
+        "Jazmín"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Almizcle",
+        "Musgo"
+      ]
+    },
+    "description": "Dulce y seductora: frutos rojos y naranja con malvavisco, jazmín y lirio del valle sobre vainilla y almizcle. Juvenil y encantadora."
   },
   {
     "id": "lattafa-khamrah",
     "brand": "Lattafa",
     "name": "Khamrah",
     "subtitle": "Eau de Parfum",
-    "price": 239900,
     "family": "Ámbar",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-khamrah.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Canela",
+        "Nuez moscada",
+        "Bergamota"
+      ],
+      "heartNotes": [
+        "Dátiles",
+        "Praliné",
+        "Nardo"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Haba tonka",
+        "Benjuí",
+        "Mirra"
+      ]
+    },
+    "description": "Calidez oriental: canela, nuez moscada y bergamota sobre dátiles y praliné, con vainilla, haba tonka y benjuí. Especiado, dulce y envolvente."
   },
   {
     "id": "al-haramain-amber-oud-gold",
     "brand": "Al Haramain",
     "name": "Amber Oud Gold Edition",
     "subtitle": "Eau de Parfum - 120 ml",
-    "price": 269900,
     "family": "Ámbar",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/al-haramain-amber-oud-gold.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Bergamota",
+        "Notas verdes"
+      ],
+      "heartNotes": [
+        "Melón",
+        "Piña",
+        "Ámbar"
+      ],
+      "baseNotes": [
+        "Almizcle",
+        "Vainilla",
+        "Notas amaderadas"
+      ]
+    },
+    "description": "Lujo dorado: bergamota y notas verdes con melón, piña y ámbar sobre almizcle, vainilla y maderas. Dulce, frutal y de gran presencia."
   },
   {
     "id": "lattafa-badee-honor-glory",
     "brand": "Lattafa",
     "name": "Bade'e Al Oud Honor & Glory",
     "subtitle": "Eau de Parfum",
-    "price": 239900,
     "family": "Gourmand",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-badee-honor-glory.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Piña",
+        "Crème brûlée"
+      ],
+      "heartNotes": [
+        "Canela",
+        "Benjuí",
+        "Cúrcuma",
+        "Pimienta negra"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Cashmeran",
+        "Sándalo",
+        "Musgo"
+      ]
+    },
+    "description": "Dulce con carácter: piña y crème brûlée con canela, cúrcuma y pimienta negra sobre vainilla y sándalo. Gourmand especiado y elegante."
   },
   {
     "id": "lattafa-badee-sublime",
     "brand": "Lattafa",
     "name": "Bade'e Al Oud Sublime",
     "subtitle": "Eau de Parfum",
-    "price": 169900,
     "family": "Frutal",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-badee-sublime.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Manzana",
+        "Lichi",
+        "Rosa"
+      ],
+      "heartNotes": [
+        "Ciruela",
+        "Jazmín"
+      ],
+      "baseNotes": [
+        "Vainilla",
+        "Musgo",
+        "Pachulí"
+      ]
+    },
+    "description": "Jugoso y seductor: manzana, lichi y rosa con ciruela y jazmín sobre vainilla, musgo y pachulí. Frutal, dulce y sofisticado."
   },
   {
     "id": "lattafa-badee-amethyst",
     "brand": "Lattafa",
     "name": "Bade'e Al Oud Amethyst",
     "subtitle": "Eau de Parfum",
-    "price": 169900,
     "family": "Floral",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-badee-amethyst.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Pimienta rosa",
+        "Bergamota"
+      ],
+      "heartNotes": [
+        "Rosa turca",
+        "Rosa búlgara",
+        "Jazmín"
+      ],
+      "baseNotes": [
+        "Oud",
+        "Ámbar",
+        "Vainilla"
+      ]
+    },
+    "description": "Rosas majestuosas: pimienta rosa y bergamota abren un corazón de rosa turca, rosa búlgara y jazmín sobre oud, ámbar y vainilla."
   },
   {
     "id": "armaf-odyssey-dubai-chocolat",
     "brand": "Armaf",
     "name": "Odyssey Dubai Chocolat",
     "subtitle": "Eau de Parfum - Gourmand Edition",
-    "price": 169900,
     "family": "Gourmand",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/armaf-odyssey-dubai-chocolat.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Café",
+        "Pistacho",
+        "Praliné",
+        "Avellana"
+      ],
+      "heartNotes": [
+        "Cardamomo",
+        "Chocolate",
+        "Vainilla"
+      ],
+      "baseNotes": [
+        "Madera de ámbar",
+        "Caramelo",
+        "Haba tonka"
+      ]
+    },
+    "description": "Inspirado en el famoso chocolate de Dubái: pistacho, café y avellana con chocolate y cardamomo sobre caramelo y haba tonka. Pura tentación."
   },
   {
     "id": "stallion-53",
-    "brand": "",
+    "brand": "Emper",
     "name": "Stallion 53",
     "subtitle": "Eau de Parfum - 100 ml",
-    "price": 299900,
     "family": "Amaderada",
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/stallion-53.jpg",
-    "olfactoryPyramid": null
+    "olfactoryPyramid": {
+      "topNotes": [
+        "Cardamomo",
+        "Violeta"
+      ],
+      "heartNotes": [
+        "Iris",
+        "Ámbar"
+      ],
+      "baseNotes": [
+        "Sándalo",
+        "Cuero",
+        "Papiro",
+        "Cedro"
+      ]
+    },
+    "description": "Amaderado y sereno: cardamomo y violeta con iris sobre sándalo, cuero y papiro. Cremoso, elegante y con estilo de perfumería nicho."
   }
 ]

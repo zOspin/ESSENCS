@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import Logo from '../common/Logo.jsx';
+import WhatsAppIcon from '../common/WhatsAppIcon.jsx';
 import NavigationMenu from './NavigationMenu.jsx';
+import { WHATSAPP_GREETING } from '../../config/constants.js';
+import { getWhatsAppUrl } from '../../services/whatsappService.js';
 
 export default function Header({ cartCount, onOpenCart }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,24 +38,37 @@ export default function Header({ cartCount, onOpenCart }) {
           <NavigationMenu />
         </div>
 
-        <button
-          type="button"
-          onClick={onOpenCart}
-          aria-label={`Bolsa de compras, ${cartCount} artículos`}
-          className="relative cursor-pointer p-2 text-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
-        >
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.1" aria-hidden="true">
-            <path d="M5 8h14l-1.2 12H6.2L5 8z" />
-            <path d="M9 8V6a3 3 0 016 0v2" />
-          </svg>
-          {cartCount > 0 && (
-            <span
-              className={`absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-gold-gradient px-1 text-[10px] font-semibold text-ink ${bump ? 'bump' : ''}`}
-            >
-              {cartCount}
-            </span>
-          )}
-        </button>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <a
+            href={getWhatsAppUrl(WHATSAPP_GREETING)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Escríbenos por WhatsApp"
+            className="flex items-center gap-2 border border-gold-line px-3 py-2 text-xs uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
+          >
+            <WhatsAppIcon />
+            <span className="hidden sm:inline">WhatsApp</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={onOpenCart}
+            aria-label={`Bolsa de compras, ${cartCount} artículos`}
+            className="relative cursor-pointer p-2 text-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.1" aria-hidden="true">
+              <path d="M5 8h14l-1.2 12H6.2L5 8z" />
+              <path d="M9 8V6a3 3 0 016 0v2" />
+            </svg>
+            {cartCount > 0 && (
+              <span
+                className={`absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-gold-gradient px-1 text-[10px] font-semibold text-ink ${bump ? 'bump' : ''}`}
+              >
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (

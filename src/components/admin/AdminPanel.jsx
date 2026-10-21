@@ -2,11 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import Button from '../common/Button.jsx';
 import Logo from '../common/Logo.jsx';
 import ProductImage from '../catalog/ProductImage.jsx';
-import ProductForm, { parsePrice } from './ProductForm.jsx';
+import ProductForm from './ProductForm.jsx';
 import { saveCatalog } from '../../services/catalogAdminService.js';
-import { formatPrice, hasPrice } from '../../utils/formatters.js';
 
-// Panel para agregar perfumes y editar precios. Escribe en public/catalog.json a través
+// Panel para agregar, editar y eliminar perfumes. Escribe en public/catalog.json a través
 // de la API local de desarrollo; los cambios llegan a la web publicada al subirlos a GitHub.
 export default function AdminPanel({ products, onProductsChange }) {
   const [query, setQuery] = useState('');
@@ -25,7 +24,7 @@ export default function AdminPanel({ products, onProductsChange }) {
     return products.filter((p) => `${p.brand} ${p.name}`.toLowerCase().includes(q));
   }, [products, query]);
 
-  const missingPrice = products.filter((p) => !hasPrice(p)).length;
+  const missingDescription = products.filter((p) => !p.description).length;
 
   async function persist(next, message) {
     const previous = products;
@@ -82,7 +81,7 @@ export default function AdminPanel({ products, onProductsChange }) {
             <h1 className="font-display text-2xl tracking-luxe text-soft">Catálogo</h1>
             <p className="mt-2 text-sm text-muted">
               {products.length} perfumes
-              {missingPrice > 0 && ` · ${missingPrice} sin precio (se muestran como «a consultar»)`}
+              {missingDescription > 0 && ` · ${missingDescription} sin descripción`}
             </p>
           </div>
           <Button onClick={() => setEditing(null)}>+ Agregar perfume</Button>
@@ -105,18 +104,8 @@ export default function AdminPanel({ products, onProductsChange }) {
                   {[product.brand, product.gender, product.family].filter(Boolean).join(' · ')}
                 </p>
                 <p className="truncate font-display tracking-[0.08em] text-soft">{product.name}</p>
+                <p className="truncate text-xs text-muted">{product.description || 'Sin descripción'}</p>
               </div>
-
-              <PriceInput
-                product={product}
-                onCommit={(price) =>
-                  updateField(
-                    product.id,
-                    { price },
-                    price ? `Precio de «${product.name}»: ${formatPrice(price)}` : `«${product.name}» quedó a consultar`,
-                  )
-                }
-              />
 
               <label className="flex items-center gap-2 text-xs text-muted" title="Aparece primero y con la etiqueta Destacado">
                 <input
@@ -161,35 +150,6 @@ export default function AdminPanel({ products, onProductsChange }) {
         <ProductForm product={editing} products={products} onSave={saveProduct} onClose={() => setEditing(undefined)} />
       )}
     </div>
-  );
-}
-
-// Precio editable en la misma fila: se guarda al salir del campo o con Enter.
-function PriceInput({ product, onCommit }) {
-  const [value, setValue] = useState(product.price ?? '');
-
-  useEffect(() => setValue(product.price ?? ''), [product.price]);
-
-  function commit() {
-    const price = parsePrice(value);
-    if (price !== (product.price ?? null)) onCommit(price);
-    setValue(price ?? '');
-  }
-
-  return (
-    <label className="flex items-center gap-2">
-      <span className="text-xs text-muted">$</span>
-      <input
-        value={value === '' ? '' : Number(value).toLocaleString('es-CO')}
-        onChange={(e) => setValue(e.target.value.replace(/\D/g, ''))}
-        onBlur={commit}
-        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-        inputMode="numeric"
-        placeholder="A consultar"
-        aria-label={`Precio de ${product.name}`}
-        className="w-32 border border-gold-line bg-ink-2 px-3 py-2 text-right text-sm text-gold placeholder:text-muted/60 focus:border-gold focus:outline-none"
-      />
-    </label>
   );
 }
 

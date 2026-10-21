@@ -5,7 +5,6 @@ import Badge from '../common/Badge.jsx';
 import Button from '../common/Button.jsx';
 import ProductImage from '../catalog/ProductImage.jsx';
 import OlfactoryPyramid from '../catalog/OlfactoryPyramid.jsx';
-import { formatPrice, hasPrice } from '../../utils/formatters.js';
 
 const MEDIA_SIZE = 'h-80 md:h-full md:min-h-[28rem]';
 
@@ -78,21 +77,12 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
             {product.subtitle && <p className="text-sm text-muted">{product.subtitle}</p>}
           </div>
 
-          {product.olfactoryPyramid ? (
-            <OlfactoryPyramid pyramid={product.olfactoryPyramid} />
-          ) : (
-            <p className="border border-gold-line bg-ink-2/70 p-4 text-sm leading-relaxed text-muted">
-              ¿Quieres conocer sus notas, duración o un perfume parecido? Añádelo a tu bolsa y pregúntanos por
-              WhatsApp: te asesoramos sin compromiso.
-            </p>
-          )}
+          {product.description && <p className="text-sm leading-relaxed text-soft">{product.description}</p>}
+
+          {product.olfactoryPyramid && <OlfactoryPyramid pyramid={product.olfactoryPyramid} />}
 
           <div className="mt-auto flex items-center justify-between gap-4 border-t border-gold-line pt-6">
-            {hasPrice(product) ? (
-              <span className="font-display text-2xl text-gold-gradient">{formatPrice(product.price)}</span>
-            ) : (
-              <span className="text-xs uppercase tracking-[0.15em] text-muted">Precio a consultar</span>
-            )}
+            <span className="text-xs leading-relaxed text-muted">Precio y disponibilidad por WhatsApp</span>
             <Button
               onClick={() => {
                 onAddToCart(product);

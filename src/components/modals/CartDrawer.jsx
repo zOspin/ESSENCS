@@ -1,12 +1,12 @@
 import Overlay from '../common/Overlay.jsx';
 import CloseButton from '../common/CloseButton.jsx';
 import Button from '../common/Button.jsx';
+import WhatsAppIcon from '../common/WhatsAppIcon.jsx';
 import ProductImage from '../catalog/ProductImage.jsx';
-import { formatPrice, hasPrice } from '../../utils/formatters.js';
-import { getCartTotals } from '../../services/productService.js';
+import { getCartCount } from '../../services/productService.js';
 
 export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCheckout }) {
-  const { subtotal, count, hasUnpriced } = getCartTotals(items);
+  const count = getCartCount(items);
 
   return (
     <Overlay onClose={onClose} align="right" label="Bolsa de compras">
@@ -52,7 +52,7 @@ export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCh
                       </button>
                     </div>
                     {product.subtitle && <p className="text-xs text-muted">{product.subtitle}</p>}
-                    <div className="mt-auto flex items-center justify-between pt-2">
+                    <div className="mt-auto flex items-center pt-2">
                       <div className="flex items-center border border-gold-line">
                         <QtyButton label="Restar uno" onClick={() => onChangeQty(product.id, qty - 1)}>
                           −
@@ -64,9 +64,6 @@ export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCh
                           +
                         </QtyButton>
                       </div>
-                      <span className="text-sm text-gold">
-                        {hasPrice(product) ? formatPrice(product.price * qty) : 'A consultar'}
-                      </span>
                     </div>
                   </div>
                 </li>
@@ -74,21 +71,11 @@ export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCh
             </ul>
 
             <div className="space-y-3 border-t border-gold-line px-6 py-6 text-sm">
-              {subtotal > 0 && (
-                <div className="flex items-baseline justify-between">
-                  <span className="text-xs uppercase tracking-luxe text-muted">Subtotal</span>
-                  <span className="font-display text-2xl text-gold-gradient">{formatPrice(subtotal)}</span>
-                </div>
-              )}
               <p className="text-xs leading-relaxed text-muted">
-                {hasUnpriced
-                  ? 'Algunos precios y el envío se confirman por WhatsApp.'
-                  : 'El envío se coordina por WhatsApp.'}
+                Envíanos tu pedido y te confirmamos por WhatsApp precio, disponibilidad y envío.
               </p>
               <Button className="mt-2 w-full" onClick={onCheckout}>
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                  <path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2a8.2 8.2 0 01-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 01-3.3-2.9c-.3-.4.3-.4.7-1.3a.5.5 0 000-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 001.8-1.3 2.2 2.2 0 00.2-1.3c-.1-.1-.3-.2-.6-.3z" />
-                </svg>
+                <WhatsAppIcon />
                 Pedir por WhatsApp
               </Button>
               <p className="text-center text-[11px] text-muted">

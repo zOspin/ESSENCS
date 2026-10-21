@@ -3,7 +3,6 @@ import Badge from '../common/Badge.jsx';
 import HoverVideo from './HoverVideo.jsx';
 import Button from '../common/Button.jsx';
 import ProductImage from './ProductImage.jsx';
-import { formatPrice, hasPrice } from '../../utils/formatters.js';
 import { triggerAura } from '../../utils/auraEffect.js';
 
 export default function ProductCard({ product, onExplore, onAddToCart }) {
@@ -54,14 +53,12 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
           <h3 className="font-display text-lg tracking-[0.12em] text-soft">{product.name}</h3>
           {product.subtitle && <p className="text-xs text-muted">{product.subtitle}</p>}
         </div>
-        <div className="mt-auto flex items-center justify-between gap-4">
-          {hasPrice(product) ? (
-            <span className="font-display text-xl text-gold-gradient">{formatPrice(product.price)}</span>
-          ) : (
-            <span className="text-[11px] uppercase tracking-[0.15em] text-muted">Precio a consultar</span>
-          )}
+        {product.description && (
+          <p className="line-clamp-3 text-sm leading-relaxed text-muted">{product.description}</p>
+        )}
+        <div className="mt-auto flex justify-end">
           <Button variant="outline" className="px-4 py-2.5" onClick={() => onAddToCart(product)}>
-            Añadir
+            Añadir a la bolsa
           </Button>
         </div>
       </div>
