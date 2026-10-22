@@ -6,7 +6,7 @@ export default function ProductGrid({ products, onExplore, onAddToCart, onResetF
     return (
       <div className="flex flex-col items-center gap-6 border border-gold-line py-20 text-center">
         <p className="font-display text-lg tracking-[0.15em] text-soft">Ninguna fragancia coincide</p>
-        <p className="text-sm text-muted">Prueba con otra familia olfativa o amplía el rango de precio.</p>
+        <p className="text-base text-muted">Prueba con otra familia olfativa.</p>
         <Button variant="outline" onClick={onResetFilters}>
           Limpiar filtros
         </Button>
@@ -15,7 +15,8 @@ export default function ProductGrid({ products, onExplore, onAddToCart, onResetF
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    // items-start: al desplegar "Ver más" solo crece esa tarjeta, no toda la fila.
+    <div className="grid items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} onExplore={onExplore} onAddToCart={onAddToCart} />
       ))}

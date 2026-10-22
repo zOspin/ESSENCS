@@ -13,7 +13,7 @@ export default function Logo() {
       />
       <span className="leading-none">
         <span className="block font-display text-xl tracking-[0.3em] text-gold-gradient">{BRAND.name}</span>
-        <span className="mt-1 block text-[9px] uppercase tracking-[0.4em] text-muted">{BRAND.tagline}</span>
+        <span className="mt-1 block text-[9px] font-display uppercase tracking-[0.4em] text-muted">{BRAND.tagline}</span>
       </span>
     </a>
   );

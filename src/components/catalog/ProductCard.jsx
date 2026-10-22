@@ -33,29 +33,21 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
         {product.hoverVideo && <HoverVideo src={product.hoverVideo} active={hovered} />}
         {product.featured && <Badge className="absolute left-4 top-4 bg-ink/80">Destacado</Badge>}
         {(product.video || product.hoverVideo) && (
-          <span className="absolute right-4 top-4 flex items-center gap-1.5 bg-ink/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-gold">
+          <span className="absolute right-4 top-4 flex items-center gap-1.5 bg-ink/80 px-2.5 py-1 text-[10px] font-display uppercase tracking-[0.2em] text-gold">
             <svg viewBox="0 0 10 10" className="h-2 w-2" fill="currentColor" aria-hidden="true">
               <path d="M2 1l7 4-7 4z" />
             </svg>
             Video
           </span>
         )}
-        <span className="absolute inset-x-0 bottom-0 bg-ink/80 py-2 text-center text-[10px] uppercase tracking-luxe text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <span className="absolute inset-x-0 bottom-0 bg-ink/80 py-2 text-center text-[10px] font-display uppercase tracking-luxe text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           Ver detalles
         </span>
       </button>
 
       <div className="flex flex-1 flex-col gap-4 border-t border-gold-line p-6">
-        <div className="space-y-1.5">
-          <p className="text-[10px] uppercase tracking-luxe text-muted">
-            {[product.brand, product.gender].filter(Boolean).join(' · ')}
-          </p>
-          <h3 className="font-display text-lg tracking-[0.12em] text-soft">{product.name}</h3>
-          {product.subtitle && <p className="text-xs text-muted">{product.subtitle}</p>}
-        </div>
-        {product.description && (
-          <p className="line-clamp-3 text-sm leading-relaxed text-muted">{product.description}</p>
-        )}
+        <h3 className="font-display text-xl tracking-[0.1em] text-gold-gradient">{product.name}</h3>
+        {product.description && <ExpandableText text={product.description} />}
         <div className="mt-auto flex justify-end">
           <Button variant="outline" className="px-4 py-2.5" onClick={() => onAddToCart(product)}>
             Añadir a la bolsa
@@ -63,5 +55,24 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
         </div>
       </div>
     </article>
+  );
+}
+
+// Descripción recortada a dos líneas; "Ver más" la despliega completa en la misma tarjeta.
+function ExpandableText({ text }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <p className={`text-base leading-relaxed text-muted ${open ? '' : 'line-clamp-2'}`}>{text}</p>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="mt-2 cursor-pointer text-[11px] font-display uppercase tracking-[0.2em] text-gold transition-colors duration-300 hover:text-gold-light"
+      >
+        {open ? 'Ver menos' : 'Ver más'}
+      </button>
+    </div>
   );
 }

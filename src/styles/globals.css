@@ -12,8 +12,11 @@
   --color-soft: #f3f3f5;
   --color-muted: #9ca3af;
 
+  /* Serif de la marca: Cinzel para títulos, menú y botones; Cormorant para los textos. */
   --font-display: 'Cinzel', 'Playfair Display', serif;
-  --font-sans: 'Montserrat', 'Inter', sans-serif;
+  --font-sans: 'Cormorant Garamond', 'Playfair Display', serif;
+  /* Sans original, solo para el botón "Descubrir la colección" del inicio. */
+  --font-ui: 'Montserrat', 'Inter', sans-serif;
 
   --shadow-glow: 0 0 24px rgba(212, 175, 55, 0.35);
 }

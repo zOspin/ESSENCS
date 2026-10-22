@@ -47,7 +47,7 @@ function MediaTab({ active, onClick, children }) {
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`cursor-pointer border px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 ${
+      className={`cursor-pointer border px-3 py-1.5 text-[10px] font-display uppercase tracking-[0.2em] transition-colors duration-300 ${
         active ? 'border-gold bg-ink/90 text-gold' : 'border-gold-line bg-ink/70 text-soft hover:text-gold'
       }`}
     >
@@ -72,17 +72,16 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               {product.family && <Badge>{product.family}</Badge>}
               {product.gender && <Badge>{product.gender}</Badge>}
             </div>
-            {product.brand && <p className="pt-2 text-xs uppercase tracking-luxe text-muted">{product.brand}</p>}
-            <h2 className="font-display text-2xl tracking-[0.12em] text-soft">{product.name}</h2>
-            {product.subtitle && <p className="text-sm text-muted">{product.subtitle}</p>}
+            {product.brand && <p className="pt-2 text-xs font-display uppercase tracking-luxe text-muted">{product.brand}</p>}
+            <h2 className="font-display text-3xl tracking-[0.1em] text-gold-gradient">{product.name}</h2>
           </div>
 
-          {product.description && <p className="text-sm leading-relaxed text-soft">{product.description}</p>}
+          {product.description && <p className="text-lg leading-relaxed text-soft">{product.description}</p>}
 
           {product.olfactoryPyramid && <OlfactoryPyramid pyramid={product.olfactoryPyramid} />}
 
           <div className="mt-auto flex items-center justify-between gap-4 border-t border-gold-line pt-6">
-            <span className="text-xs leading-relaxed text-muted">Precio y disponibilidad por WhatsApp</span>
+            <span className="text-sm leading-relaxed text-muted">Precio y disponibilidad por WhatsApp</span>
             <Button
               onClick={() => {
                 onAddToCart(product);

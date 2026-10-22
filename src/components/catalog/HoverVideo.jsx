@@ -72,7 +72,7 @@ export default function HoverVideo({ src, active }) {
           tabIndex={0}
           onClick={enableSound}
           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && enableSound(e)}
-          className="fade-in absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-2 border border-gold bg-ink/85 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-gold shadow-glow"
+          className="fade-in absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-2 border border-gold bg-ink/85 px-3 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-gold shadow-glow"
         >
           <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
             <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />

@@ -27,7 +27,7 @@ export default function FilterModal({ filters, onApply, onClose }) {
 
         <div className="px-6 py-6">
           <fieldset>
-            <legend className="mb-4 text-xs uppercase tracking-luxe text-muted">Familia olfativa</legend>
+            <legend className="mb-4 text-xs font-display uppercase tracking-luxe text-muted">Familia olfativa</legend>
             <div className="flex flex-wrap gap-2">
               {FAMILIES.map((family) => (
                 <Chip key={family} active={draft.families.includes(family)} onClick={() => toggleFamily(family)}>

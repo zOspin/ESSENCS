@@ -39,19 +39,22 @@ export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCh
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         {product.brand && (
-                          <p className="text-[10px] uppercase tracking-[0.15em] text-muted">{product.brand}</p>
+                          <p className="text-[10px] font-display uppercase tracking-[0.15em] text-muted">{product.brand}</p>
                         )}
-                        <p className="font-display text-sm tracking-[0.1em] text-soft">{product.name}</p>
+                        <p className="font-display text-base tracking-[0.08em] text-gold-gradient">{product.name}</p>
                       </div>
                       <button
                         type="button"
                         onClick={() => onRemove(product.id)}
-                        className="cursor-pointer text-[10px] uppercase tracking-[0.15em] text-muted transition-colors duration-300 hover:text-gold"
+                        aria-label={`Quitar ${product.name} de la bolsa`}
+                        title="Quitar"
+                        className="-m-1 cursor-pointer p-1 text-muted transition-colors duration-300 hover:text-gold"
                       >
-                        Quitar
+                        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 002 2h8a2 2 0 002-2l1-12M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
+                        </svg>
                       </button>
                     </div>
-                    {product.subtitle && <p className="text-xs text-muted">{product.subtitle}</p>}
                     <div className="mt-auto flex items-center pt-2">
                       <div className="flex items-center border border-gold-line">
                         <QtyButton label="Restar uno" onClick={() => onChangeQty(product.id, qty - 1)}>
@@ -71,14 +74,14 @@ export default function CartDrawer({ items, onClose, onChangeQty, onRemove, onCh
             </ul>
 
             <div className="space-y-3 border-t border-gold-line px-6 py-6 text-sm">
-              <p className="text-xs leading-relaxed text-muted">
+              <p className="text-base leading-relaxed text-muted">
                 Envíanos tu pedido y te confirmamos por WhatsApp precio, disponibilidad y envío.
               </p>
               <Button className="mt-2 w-full" onClick={onCheckout}>
                 <WhatsAppIcon />
                 Pedir por WhatsApp
               </Button>
-              <p className="text-center text-[11px] text-muted">
+              <p className="text-center text-sm italic text-muted">
                 Se abrirá WhatsApp con tu pedido listo para enviar.
               </p>
             </div>

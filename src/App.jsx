@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
 import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
+import IntroSplash from './components/layout/IntroSplash.jsx';
 import ControlBar from './components/catalog/ControlBar.jsx';
 import ProductGrid from './components/catalog/ProductGrid.jsx';
 import CartDrawer from './components/modals/CartDrawer.jsx';
@@ -27,6 +28,9 @@ const AdminPanel = ADMIN_ENABLED ? lazy(() => import('./components/admin/AdminPa
 // (#coleccion). Así el botón Atrás del navegador vuelve al inicio.
 const STORE_HASHES = ['#coleccion'];
 
+// La intro se salta si el sistema pide menos movimiento.
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export default function App() {
   const [products, setProducts] = useState([]);
   const [loadError, setLoadError] = useState('');
@@ -41,6 +45,8 @@ export default function App() {
   const [hash, setHash] = useState(() => window.location.hash);
   const adminOpen = ADMIN_ENABLED && hash === '#admin';
   const storeOpen = STORE_HASHES.includes(hash);
+  const [introOpen, setIntroOpen] = useState(() => !REDUCED_MOTION && window.location.hash !== '#admin');
+  const closeIntro = useCallback(() => setIntroOpen(false), []);
 
   useEffect(() => {
     getProducts()
@@ -135,6 +141,7 @@ export default function App() {
         <FilterModal filters={filters} onApply={setFilters} onClose={closeFilters} />
       )}
       {selected && <ProductDetailModal product={selected} onClose={closeDetail} onAddToCart={addToCart} />}
+      {introOpen && <IntroSplash onDone={closeIntro} />}
     </>
   );
 
@@ -149,15 +156,15 @@ export default function App() {
             {BRAND.name} {BRAND.tagline}
           </h1>
           <img
-            src={BRAND.logo}
+            src={BRAND.logoTransparent}
             alt={`${BRAND.name} ${BRAND.tagline}`}
             width="720"
             height="720"
-            className="fade-in relative h-auto max-h-[65svh] w-[min(90vw,34rem)] object-contain mix-blend-screen"
+            className="fade-in relative h-auto max-h-[65svh] w-[min(90vw,34rem)] object-contain"
           />
           <a
             href="#coleccion"
-            className="relative inline-block border border-gold-line px-10 py-4 text-xs uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
+            className="relative inline-block border border-gold-line px-10 py-4 font-ui text-xs uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
           >
             Descubrir la colección
           </a>
@@ -174,7 +181,7 @@ export default function App() {
       <main className="flex-1">
         <section id="coleccion" className="mx-auto max-w-7xl px-4 py-16 sm:px-8">
           <div className="mb-10 text-center">
-            <h2 className="font-display text-2xl tracking-luxe text-soft sm:text-3xl">La Colección</h2>
+            <h2 className="font-display text-3xl tracking-[0.12em] text-gold-gradient sm:text-5xl">Nuestra Colección</h2>
             <div className="mx-auto mt-4 h-px w-16 bg-gold-gradient" />
           </div>
 

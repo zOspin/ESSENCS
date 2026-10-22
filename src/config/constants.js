@@ -5,6 +5,8 @@ export const BRAND = {
   // Número con indicativo de país, solo dígitos. Ej. Colombia: '573001234567'.
   whatsapp: '573024316353',
   logo: '/assets/brand/essencs-logo.png',
+  // Mismo logo sin el fondo negro, para mostrarlo grande sobre cualquier fondo.
+  logoTransparent: '/assets/brand/essencs-logo-transparente.png',
   isotipo: '/assets/brand/essencs-isotipo.png',
 };
 
@@ -18,10 +20,6 @@ export const GENDERS = ['Hombre', 'Mujer', 'Unisex'];
 export const SORT_OPTIONS = [
   { value: 'featured', label: 'Destacados' },
   { value: 'name', label: 'Nombre (A-Z)' },
-];
-
-export const NAV_LINKS = [
-  { href: '#coleccion', label: 'Colección' },
 ];
 
 // Mensaje con el que se abre el chat desde el botón de WhatsApp del encabezado.

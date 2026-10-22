@@ -1,13 +1,13 @@
 export default function Select({ id, label, value, options, onChange }) {
   return (
-    <label htmlFor={id} className="flex items-center gap-3 text-xs uppercase tracking-luxe text-muted">
+    <label htmlFor={id} className="flex items-center gap-3 text-xs font-display uppercase tracking-luxe text-muted">
       <span className="hidden sm:inline">{label}</span>
       <span className="relative">
         <select
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="appearance-none cursor-pointer border border-gold-line bg-surface py-2.5 pl-4 pr-10 text-xs uppercase tracking-luxe text-soft transition-colors duration-300 hover:border-gold focus:border-gold focus:outline-none"
+          className="appearance-none cursor-pointer border border-gold-line bg-surface py-2.5 pl-4 pr-10 text-xs font-display uppercase tracking-luxe text-soft transition-colors duration-300 hover:border-gold focus:border-gold focus:outline-none"
         >
           {options.map((opt) => (
             <option key={opt.value} value={opt.value}>

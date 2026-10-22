@@ -16,8 +16,8 @@ export default function OlfactoryPyramid({ pyramid }) {
           style={{ animationDelay: `${i * 90}ms` }}
         >
           <p className="font-display text-xs tracking-luxe text-gold">{tier.label}</p>
-          <p className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-muted">{tier.hint}</p>
-          <p className="mt-2 text-sm text-soft">{pyramid[tier.key].join(' · ')}</p>
+          <p className="mt-0.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted">{tier.hint}</p>
+          <p className="mt-2 text-base text-soft">{pyramid[tier.key].join(' · ')}</p>
         </li>
       ))}
     </ol>

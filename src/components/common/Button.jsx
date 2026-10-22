@@ -23,7 +23,7 @@ export default function Button({
     <button
       type={type}
       onClick={handleClick}
-      className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-medium uppercase tracking-luxe transition-all duration-300 ease-in-out cursor-pointer disabled:opacity-40 disabled:pointer-events-none ${VARIANTS[variant]} ${className}`}
+      className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-medium font-display uppercase tracking-luxe transition-all duration-300 ease-in-out cursor-pointer disabled:opacity-40 disabled:pointer-events-none ${VARIANTS[variant]} ${className}`}
       {...props}
     >
       {children}
