@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Badge from '../common/Badge.jsx';
 import HoverVideo from './HoverVideo.jsx';
 import Button from '../common/Button.jsx';
@@ -7,6 +7,7 @@ import { triggerAura } from '../../utils/auraEffect.js';
 
 export default function ProductCard({ product, onExplore, onAddToCart }) {
   const [hovered, setHovered] = useState(false);
+  const centered = useCenteredOnTouch(product.hoverVideo);
 
   function handleExplore(event) {
     triggerAura(event);
@@ -15,6 +16,7 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
 
   return (
     <article
+      ref={centered.ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="group flex flex-col border border-gold-line bg-surface transition-all duration-300 hover:border-gold/60 hover:shadow-glow"
@@ -30,16 +32,8 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
           className="h-72"
           imgClassName="p-4 transition-transform duration-300 group-hover:scale-105"
         />
-        {product.hoverVideo && <HoverVideo src={product.hoverVideo} active={hovered} />}
+        {product.hoverVideo && <HoverVideo src={product.hoverVideo} active={hovered || centered.active} />}
         {product.featured && <Badge className="absolute left-4 top-4 bg-ink/80">Destacado</Badge>}
-        {(product.video || product.hoverVideo) && (
-          <span className="absolute right-4 top-4 flex items-center gap-1.5 bg-ink/80 px-2.5 py-1 text-[10px] font-display uppercase tracking-[0.2em] text-gold">
-            <svg viewBox="0 0 10 10" className="h-2 w-2" fill="currentColor" aria-hidden="true">
-              <path d="M2 1l7 4-7 4z" />
-            </svg>
-            Video
-          </span>
-        )}
         <span className="absolute inset-x-0 bottom-0 bg-ink/80 py-2 text-center text-[10px] font-display uppercase tracking-luxe text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           Ver detalles
         </span>
@@ -56,6 +50,26 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
       </div>
     </article>
   );
+}
+
+// En pantallas táctiles no hay mouse encima: el video se activa cuando la tarjeta pasa por la
+// franja central de la pantalla al hacer scroll.
+const TOUCH = window.matchMedia('(hover: none)').matches;
+
+function useCenteredOnTouch(enabled) {
+  const ref = useRef(null);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (!TOUCH || !enabled || !ref.current) return;
+    const observer = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), {
+      rootMargin: '-45% 0px -45% 0px',
+    });
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [enabled]);
+
+  return { ref, active };
 }
 
 // Descripción recortada a dos líneas; "Ver más" la despliega completa en la misma tarjeta.

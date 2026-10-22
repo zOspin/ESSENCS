@@ -1,24 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Overlay from '../common/Overlay.jsx';
 import CloseButton from '../common/CloseButton.jsx';
 import Badge from '../common/Badge.jsx';
 import Button from '../common/Button.jsx';
 import ProductImage from '../catalog/ProductImage.jsx';
 import OlfactoryPyramid from '../catalog/OlfactoryPyramid.jsx';
+import { playWithSound, stopVideo } from '../../utils/videoSound.js';
 
 const MEDIA_SIZE = 'h-80 md:h-full md:min-h-[28rem]';
 
-// Si el perfume tiene video, se abre reproduciéndolo; se puede alternar con la foto.
+// Si el perfume tiene video, se abre reproduciéndolo con sonido; se puede alternar con la foto.
 function ProductMedia({ product }) {
   const [showVideo, setShowVideo] = useState(Boolean(product.video));
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!showVideo || !video) return;
+    let alive = true;
+    playWithSound(video, () => alive);
+    return () => {
+      alive = false;
+      stopVideo(video, { rewind: false });
+    };
+  }, [showVideo]);
 
   return (
     <div className="relative">
       {showVideo ? (
         <video
+          ref={videoRef}
           src={product.video}
-          autoPlay
-          muted
           loop
           playsInline
           controls
