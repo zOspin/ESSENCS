@@ -8,6 +8,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/versace-eros-flame.jpg",
+    "video": "/assets/videos/versace-eros-flame.mp4",
+    "hoverVideo": "/assets/videos/versace-eros-flame.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Limón",
@@ -41,6 +43,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/versace-eros.jpg",
+    "video": "/assets/videos/versace-eros.mp4",
+    "hoverVideo": "/assets/videos/versace-eros.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Menta",
