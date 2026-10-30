@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react
 import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
 import IntroSplash from './components/layout/IntroSplash.jsx';
+import Vitrina from './components/vitrina/Vitrina.jsx';
 import ControlBar from './components/catalog/ControlBar.jsx';
 import ProductGrid from './components/catalog/ProductGrid.jsx';
 import CartDrawer from './components/modals/CartDrawer.jsx';
@@ -24,7 +25,7 @@ const ADMIN_ENABLED = import.meta.env.DEV;
 // Import dinámico condicionado: el build de producción elimina el panel por completo.
 const AdminPanel = ADMIN_ENABLED ? lazy(() => import('./components/admin/AdminPanel.jsx')) : null;
 
-// La página tiene dos vistas según el hash: el inicio (solo logo y botón) y la colección
+// La página tiene dos vistas según el hash: el inicio (la vitrina) y la colección
 // (#coleccion). Así el botón Atrás del navegador vuelve al inicio.
 const STORE_HASHES = ['#coleccion'];
 
@@ -145,29 +146,16 @@ export default function App() {
     </>
   );
 
-  // Inicio: una sola pantalla con el logo grande y el botón; no hay nada más al hacer scroll.
+  // Inicio (prototipo): la vitrina de nichos iluminados. Al tocar un frasco se abre su ficha.
   if (!storeOpen) {
     return (
-      <div className="flex h-svh flex-col overflow-hidden">
+      <div className="flex min-h-svh flex-col">
         {header}
-        <main className="relative flex flex-1 flex-col items-center justify-center gap-10 px-4 pb-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(212,175,55,0.16),transparent_65%)]" />
+        <main className="relative flex flex-1 flex-col">
           <h1 className="sr-only">
             {BRAND.name} {BRAND.tagline}
           </h1>
-          <img
-            src={BRAND.logoTransparent}
-            alt={`${BRAND.name} ${BRAND.tagline}`}
-            width="720"
-            height="720"
-            className="fade-in relative h-auto max-h-[65svh] w-[min(90vw,34rem)] object-contain"
-          />
-          <a
-            href="#coleccion"
-            className="relative inline-block border border-gold-line px-10 py-4 font-ui text-xs uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
-          >
-            Descubrir la colección
-          </a>
+          <Vitrina products={products} ready={!introOpen} onAddToCart={addToCart} />
         </main>
         {modals}
       </div>

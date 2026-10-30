@@ -1,0 +1,569 @@
+/* ───────────── Prototipo: vitrina de nichos iluminados ───────────── */
+
+.vitrina {
+  --row-h: clamp(320px, 56svh, 600px);
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(20px, 3svh, 36px);
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(16px, 3svh, 32px) clamp(16px, 3vw, 48px) clamp(20px, 3svh, 32px);
+}
+
+/* ── Encabezado ── */
+.vitrina-head {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  transition-delay: 0.9s;
+}
+.vitrina.is-on .vitrina-head {
+  opacity: 1;
+  transform: none;
+}
+.vitrina-eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.vitrina-title {
+  margin-top: 6px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+  line-height: 1;
+  color: var(--color-soft);
+}
+.vitrina-title em,
+.detail-name em {
+  font-style: italic;
+  background: linear-gradient(135deg, #fff0b3 0%, #d4af37 55%, #8c6211 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.08em;
+}
+.vitrina-lead {
+  margin-top: 8px;
+  font-size: 1.15rem;
+  color: var(--color-muted);
+}
+
+/* ── Fila de nichos ── */
+.vitrina-row {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(10px, 1.3vw, 22px);
+  height: var(--row-h);
+}
+
+.niche {
+  position: relative;
+  display: block;
+  height: 100%;
+  cursor: pointer;
+  transform: translateY(24px);
+  opacity: 0;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.5s ease;
+  transition-delay: calc(var(--i) * 110ms), calc(var(--i) * 110ms), 0s;
+}
+.vitrina.is-on .niche {
+  opacity: 1;
+  transform: none;
+}
+.niche:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 4px;
+}
+/* El nicho abierto se "presta" al detalle mientras crece. */
+.niche.is-open {
+  visibility: hidden;
+}
+
+/* Al pasar el mouse, el nicho elegido se enciende y los demás se apagan. */
+@media (hover: hover) and (min-width: 768px) {
+  .vitrina-row:hover .niche:not(:hover) {
+    filter: brightness(0.38) saturate(0.6);
+  }
+  .niche:hover .niche-beam {
+    opacity: 0.95;
+  }
+  .niche:hover .niche-bottle {
+    transform: translateX(-50%) translateY(-2.5%) scale(1.04);
+  }
+  .niche:hover .niche-caption {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.niche-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 6px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.niche-brand {
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.niche-name {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.1;
+  color: var(--color-soft);
+}
+
+/* ── Escena dentro del nicho (se reutiliza en grande en el detalle) ── */
+.niche-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #070708;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.niche-stone {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--light) 42%, transparent), transparent 72%),
+    radial-gradient(ellipse 90% 70% at 50% 35%, rgba(255, 255, 255, 0.07), transparent 70%),
+    linear-gradient(180deg, #1b1a1d 0%, #0f0f11 60%, #08080a 100%);
+}
+/* Textura de piedra hecha con ruido SVG: nada que descargar. */
+.niche-stone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 20%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(ellipse 80% 75% at 50% 20%, #000 20%, transparent 80%);
+}
+
+.niche-beam {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 96%;
+  height: 88%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--light) 45%, transparent) 0%, transparent 88%);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  transition: opacity 0.6s ease;
+}
+
+.niche-lamp {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 30%;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 0 0 4px 4px;
+  background: color-mix(in srgb, var(--light) 55%, #fff);
+  box-shadow:
+    0 0 14px 3px color-mix(in srgb, var(--light) 80%, transparent),
+    0 0 50px 12px color-mix(in srgb, var(--light) 35%, transparent);
+}
+
+.niche-shelf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.6) 40%, #040405);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.niche-pool {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  width: 78%;
+  height: 12%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--light) 55%, transparent), transparent 70%);
+  filter: blur(10px);
+  opacity: 0.55;
+}
+
+.niche-bottle,
+.niche-reflection {
+  position: absolute;
+  left: 50%;
+  height: calc(var(--scale) * 58% * var(--zoom, 1));
+  width: auto;
+  max-width: 82%;
+  object-fit: contain;
+  object-position: bottom;
+  user-select: none;
+}
+.niche-bottle {
+  bottom: 16%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.7))
+    drop-shadow(0 0 26px color-mix(in srgb, var(--light) 28%, transparent));
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.niche-reflection {
+  top: 84%;
+  transform: translateX(-50%) scaleY(-1);
+  opacity: 0.22;
+  filter: blur(1.5px);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 32%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 32%);
+}
+
+/* Las luces se encienden una a una cuando termina la intro. */
+.niche .niche-beam,
+.niche .niche-lamp,
+.niche .niche-pool {
+  transition: opacity 1.1s ease;
+  transition-delay: calc(0.4s + var(--i) * 140ms);
+}
+.vitrina:not(.is-on) .niche .niche-beam,
+.vitrina:not(.is-on) .niche .niche-lamp,
+.vitrina:not(.is-on) .niche .niche-pool {
+  opacity: 0;
+}
+
+/* ── Pie de la vitrina ── */
+.vitrina-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.vitrina-dots {
+  display: none;
+  gap: 8px;
+}
+.vitrina-dots button {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.vitrina-dots button.is-active {
+  width: 22px;
+  background: var(--color-gold);
+}
+.vitrina-all {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  border-bottom: 1px solid var(--color-gold-line);
+  padding-bottom: 4px;
+  transition: border-color 0.3s ease;
+}
+.vitrina-all:hover {
+  border-color: var(--color-gold);
+}
+
+/* ── Celular: la fila se desliza de lado y el nicho del centro queda encendido ── */
+@media (max-width: 767px) {
+  .vitrina {
+    --row-h: min(54svh, 470px);
+    justify-content: flex-start;
+    padding-inline: 0;
+  }
+  .vitrina-head,
+  .vitrina-foot {
+    padding-inline: 20px;
+  }
+  .vitrina-row {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: 19vw;
+    scrollbar-width: none;
+  }
+  .vitrina-row::-webkit-scrollbar {
+    display: none;
+  }
+  .niche {
+    flex: 0 0 62vw;
+    scroll-snap-align: center;
+  }
+  .niche:not(.is-active) {
+    filter: brightness(0.4) saturate(0.6);
+  }
+  .niche.is-active .niche-caption {
+    opacity: 1;
+    transform: none;
+  }
+  .vitrina-dots {
+    display: flex;
+  }
+}
+
+/* ───────────── Detalle del perfume ───────────── */
+.vitrina-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  background: #050506;
+}
+.vitrina-detail::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 70% at 75% 40%, color-mix(in srgb, var(--light) 10%, transparent), transparent 70%);
+  transition: background 0.8s ease;
+}
+
+.detail-frame {
+  position: absolute;
+  z-index: 1;
+  --zoom: 1.12;
+}
+.detail-swap {
+  position: absolute;
+  inset: 0;
+  animation: detail-swap 0.7s ease both;
+}
+@keyframes detail-swap {
+  from {
+    opacity: 0;
+    filter: brightness(0.3);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.detail-panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 50%;
+  padding: 28px clamp(24px, 5vw, 80px);
+}
+.detail-top,
+.detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.detail-back,
+.detail-nav button {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-soft);
+  transition: color 0.3s ease;
+}
+.detail-back:hover,
+.detail-nav button:hover {
+  color: var(--color-gold);
+}
+.detail-count {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--color-muted);
+}
+.detail-body {
+  margin: auto 0;
+  padding: 32px 0;
+  animation: detail-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s both;
+}
+@keyframes detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.detail-eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.detail-name {
+  margin-top: 10px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 5.6vw, 5rem);
+  line-height: 0.95;
+  color: var(--color-soft);
+}
+.detail-name em {
+  background: linear-gradient(135deg, #fff, color-mix(in srgb, var(--light) 85%, #fff) 45%, var(--light));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.detail-sub {
+  margin-top: 10px;
+  font-size: 1.05rem;
+  color: var(--color-muted);
+}
+.detail-desc {
+  margin-top: 22px;
+  max-width: 34rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--color-soft);
+}
+.detail-notes {
+  margin-top: 24px;
+  max-width: 34rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.detail-notes > div {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.detail-notes dt {
+  padding-top: 3px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+.detail-notes dd {
+  font-size: 1.05rem;
+  color: var(--color-soft);
+}
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+.detail-ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid var(--color-gold-line);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  transition: all 0.3s ease;
+}
+.detail-ask:hover {
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-glow);
+}
+.detail-note {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+.detail-nav {
+  justify-content: flex-start;
+  gap: 28px;
+}
+.detail-nav button {
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
+.vitrina-detail.is-closing .detail-panel {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* Celular: el nicho grande arriba y la ficha debajo, con scroll. */
+@media (max-width: 899px) {
+  .detail-panel {
+    width: 100%;
+    min-height: 0;
+    padding: 0 22px 32px;
+  }
+  .detail-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 14px 20px;
+    background: rgba(5, 5, 6, 0.82);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .detail-body {
+    margin-top: calc(var(--frame-h) + 4px);
+    padding-top: 8px;
+  }
+  .detail-name {
+    font-size: 2.9rem;
+  }
+  .detail-nav {
+    justify-content: space-between;
+    padding-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .niche,
+  .vitrina-head,
+  .niche .niche-beam,
+  .niche .niche-lamp,
+  .niche .niche-pool {
+    transition: none;
+  }
+  .detail-swap,
+  .detail-body {
+    animation: none;
+  }
+}
