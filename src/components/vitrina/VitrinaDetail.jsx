@@ -1,13 +1,14 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import NicheScene from './NicheScene.jsx';
 import Button from '../common/Button.jsx';
 import WhatsAppIcon from '../common/WhatsAppIcon.jsx';
 import { getWhatsAppUrl } from '../../services/whatsappService.js';
 import { BRAND } from '../../config/constants.js';
 
-const EASE = 'cubic-bezier(0.7, 0, 0.2, 1)';
-const OPEN_MS = 800;
-const CLOSE_MS = 650;
+const EASE = 'cubic-bezier(0.76, 0, 0.24, 1)';
+const OPEN_MS = 950;
+const CLOSE_MS = 750;
 const REDUCED = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Dónde queda el nicho grande: mitad derecha en computador, parte de arriba en el celular.
@@ -60,7 +61,10 @@ export default function VitrinaDetail({
     const frame = frameRef.current;
     const root = rootRef.current;
     if (REDUCED()) return;
-    root.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 350, easing: 'ease-out' });
+    root.animate([{ backgroundColor: 'rgba(5,5,6,0)' }, { backgroundColor: 'rgba(5,5,6,0.985)' }], {
+      duration: 700,
+      easing: 'ease-out',
+    });
     if (origin) {
       frame.animate([toFrame(origin), toFrame(targetRect())], { duration: OPEN_MS, easing: EASE });
     } else {
@@ -87,7 +91,7 @@ export default function VitrinaDetail({
       easing: EASE,
       fill: 'forwards',
     });
-    rootRef.current.animate([{ backgroundColor: 'rgba(5,5,6,1)' }, { backgroundColor: 'rgba(5,5,6,0)' }], {
+    rootRef.current.animate([{ backgroundColor: 'rgba(5,5,6,0.985)' }, { backgroundColor: 'rgba(5,5,6,0)' }], {
       duration: CLOSE_MS,
       easing: 'ease-in',
       fill: 'forwards',
@@ -123,7 +127,11 @@ export default function VitrinaDetail({
   const askUrl = getWhatsAppUrl(`Hola ${BRAND.name}, quiero información sobre ${item.brand} ${item.name}.`);
   const notes = TIERS.filter(([key]) => item.olfactoryPyramid?.[key]?.length);
 
-  return (
+  let d = 0;
+  const step = () => ({ '--d': d++ });
+
+  // Se dibuja directo en <body> para quedar por encima del encabezado y de todo lo demás.
+  return createPortal(
     <div
       ref={rootRef}
       className="vitrina-detail"
@@ -132,6 +140,10 @@ export default function VitrinaDetail({
       aria-label={`${item.brand} ${item.name}`}
       style={{ '--light': item.light, '--frame-h': `${rect.height}px` }}
     >
+      <span key={`n-${item.id}`} className="detail-num" aria-hidden="true">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+
       <div ref={frameRef} className="detail-frame" style={toFrame(rect)}>
         <div key={item.id} className="detail-swap">
           <NicheScene item={item} priority />
@@ -144,26 +156,36 @@ export default function VitrinaDetail({
             <span aria-hidden="true">←</span> Vitrina
           </button>
           <span className="detail-count">
-            {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+            {String(index + 1).padStart(2, '0')}
+            <span className="detail-progress" style={{ '--p': (index + 1) / total }} aria-hidden="true" />
+            {String(total).padStart(2, '0')}
           </span>
         </div>
 
         <div key={item.id} className="detail-body">
-          <p className="detail-eyebrow">
+          <p className="detail-eyebrow rv" style={step()}>
             {item.brand}
-            {item.family && <span> · {item.family}</span>}
-            {item.gender && <span> · {item.gender}</span>}
+            {item.family && <span>· {item.family}</span>}
+            {item.gender && <span>· {item.gender}</span>}
           </p>
-          <h2 className="detail-name">
+          <h2 className="detail-name rv" style={step()}>
             <StyledName name={item.name} />
           </h2>
-          {item.subtitle && <p className="detail-sub">{item.subtitle}</p>}
-          {item.description && <p className="detail-desc">{item.description}</p>}
+          {item.subtitle && (
+            <p className="detail-sub rv" style={step()}>
+              {item.subtitle}
+            </p>
+          )}
+          {item.description && (
+            <p className="detail-desc rv" style={step()}>
+              {item.description}
+            </p>
+          )}
 
           {notes.length > 0 && (
             <dl className="detail-notes">
               {notes.map(([key, label]) => (
-                <div key={key}>
+                <div key={key} className="rv" style={step()}>
                   <dt>{label}</dt>
                   <dd>{item.olfactoryPyramid[key].join(' · ')}</dd>
                 </div>
@@ -171,7 +193,7 @@ export default function VitrinaDetail({
             </dl>
           )}
 
-          <div className="detail-actions">
+          <div className="detail-actions rv" style={step()}>
             <Button
               onClick={() => {
                 onAddToCart(item);
@@ -184,7 +206,9 @@ export default function VitrinaDetail({
               <WhatsAppIcon /> Preguntar
             </a>
           </div>
-          <p className="detail-note">Precio y disponibilidad por WhatsApp.</p>
+          <p className="detail-note rv" style={step()}>
+            Precio y disponibilidad por WhatsApp.
+          </p>
         </div>
 
         <div className="detail-nav">
@@ -196,6 +220,7 @@ export default function VitrinaDetail({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
