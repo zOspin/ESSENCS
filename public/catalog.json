@@ -99,6 +99,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/jpg-le-beau-le-parfum.jpg",
+    "video": "/assets/videos/jpg-le-beau-le-parfum.mp4",
+    "hoverVideo": "/assets/videos/jpg-le-beau-le-parfum.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Piña",
@@ -127,6 +129,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/jpg-le-male-in-blue.jpg",
+    "video": "/assets/videos/jpg-le-male-in-blue.mp4",
+    "hoverVideo": "/assets/videos/jpg-le-male-in-blue.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Lavanda"
@@ -177,6 +181,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/bharara-king.jpg",
+    "video": "/assets/videos/bharara-king.mp4",
+    "hoverVideo": "/assets/videos/bharara-king.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Naranja",
