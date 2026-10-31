@@ -3,7 +3,7 @@ export const BRAND = {
   tagline: 'Perfumería',
   email: 'hola@essencs.com',
   // Número con indicativo de país, solo dígitos. Ej. Colombia: '573001234567'.
-  whatsapp: '573103885448',
+  whatsapp: '573043373668',
   logo: '/assets/brand/essencs-logo.png',
   // Mismo logo sin el fondo negro, para mostrarlo grande sobre cualquier fondo.
   logoTransparent: '/assets/brand/essencs-logo-transparente.png',
