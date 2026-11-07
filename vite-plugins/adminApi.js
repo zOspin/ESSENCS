@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
 import path from 'node:path';
+import { pipeline } from 'node:stream';
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const WATCH_FREE_DIRS = ['/assets/products/', '/assets/videos/'];
@@ -94,8 +96,9 @@ async function serveFile(req, res, file) {
   res.setHeader('Cache-Control', 'no-cache');
   if (req.method === 'HEAD') return res.end();
 
-  const handle = await fs.open(file);
-  handle.createReadStream({ start, end }).pipe(res);
+  // pipeline cierra el archivo también cuando el navegador corta la descarga a medias
+  // (pasa todo el tiempo con los videos); un archivo sin cerrar tumba el servidor en Node 26.
+  pipeline(createReadStream(file, { start, end }), res, () => {});
 }
 
 function readBody(req, limit) {
