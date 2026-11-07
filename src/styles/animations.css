@@ -15,8 +15,16 @@
   }
 }
 
+/* Una sola familia de curvas para toda la tienda: salida exponencial (arranca decidido y se
+   posa despacio, como algo pesado y caro), y una más corta para las salidas. */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --exit-ms: 220ms;
+}
+
 .fade-in {
-  animation: fade-in 300ms ease both;
+  animation: fade-in 450ms var(--ease-out) both;
 }
 
 @keyframes fade-in {
@@ -26,7 +34,7 @@
 }
 
 .slide-in-right {
-  animation: slide-in-right 300ms ease both;
+  animation: slide-in-right 550ms var(--ease-out) both;
 }
 
 @keyframes slide-in-right {
@@ -36,14 +44,234 @@
 }
 
 .rise-in {
-  animation: rise-in 300ms ease both;
+  animation: rise-in 600ms var(--ease-out) both;
 }
 
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.98);
+    transform: translateY(18px) scale(0.98);
   }
+}
+
+/* Salidas: todo a la vez, más cortas que la entrada y por donde entró. */
+.is-closing {
+  animation: fade-out var(--exit-ms) var(--ease-in) both;
+}
+
+.is-closing .slide-in-right {
+  animation: slide-out-right var(--exit-ms) var(--ease-in) both;
+}
+
+.is-closing .rise-in {
+  animation: sink-out var(--exit-ms) var(--ease-in) both;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sink-out {
+  to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+/* Inicio: entra cuando termina la intro (main recibe .home-ready).
+   El logo protagoniza; el botón lo sigue; las líneas doradas se dibujan de fondo. */
+.home-logo,
+.home-cta,
+.home-line,
+.home-panel {
+  animation-play-state: paused;
+}
+
+.home-ready .home-logo,
+.home-ready .home-cta,
+.home-ready .home-line,
+.home-ready .home-panel {
+  animation-play-state: running;
+}
+
+.home-logo {
+  animation: home-logo 1100ms var(--ease-out) both;
+}
+
+@keyframes home-logo {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(8px);
+  }
+}
+
+.home-panel {
+  animation: fade-in 1200ms var(--ease-out) both;
+}
+
+.home-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-line 1600ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Destello que recorre el logo, recortado a su silueta: pasa al entrar y luego cada 7 s. */
+.logo-shine {
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 246, 214, 0.55) 50%, transparent 62%) no-repeat;
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.home-ready .logo-shine {
+  animation: logo-shine 7s var(--ease-out) 900ms infinite;
+}
+
+@keyframes logo-shine {
+  0% {
+    opacity: 1;
+    background-position: 160% 0;
+  }
+  22% {
+    opacity: 1;
+    background-position: -60% 0;
+  }
+  23%,
+  100% {
+    opacity: 0;
+    background-position: -60% 0;
+  }
+}
+
+/* Colección: el título sube desde detrás de una línea, el filete dorado se abre desde el
+   centro y los controles llegan con él. */
+.line-reveal {
+  display: inline-block;
+  animation: line-reveal 1000ms var(--ease-out) both;
+}
+
+@keyframes line-reveal {
+  from {
+    transform: translateY(105%);
+  }
+}
+
+.rule-grow {
+  animation: rule-grow 900ms var(--ease-out) 250ms both;
+}
+
+@keyframes rule-grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 700ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--rise, 12px));
+  }
+}
+
+/* Tarjetas: aparecen al entrar en pantalla, en ola por fila (ver ProductGrid.jsx).
+   `backwards` suelta el estado final al terminar para que el hover no quede bloqueado. */
+/* El estado oculto solo existe si el sistema permite movimiento: con movimiento reducido
+   (o si el script no corre) todo está a la vista desde el principio. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-in]) {
+    opacity: 0;
+  }
+}
+
+[data-reveal][data-in] {
+  animation: card-in 900ms var(--ease-out) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.985);
+  }
+}
+
+/* Portada de la colección: el video se abre desde abajo como una cortina mientras la imagen
+   se asienta desde un poco más cerca. Es el único momento fuerte de la página. */
+.shutter {
+  animation: shutter 1100ms var(--ease-out) 150ms both;
+}
+
+.shutter-media {
+  animation: shutter-settle 1600ms var(--ease-out) 150ms both;
+}
+
+@keyframes shutter {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes shutter-settle {
+  from {
+    scale: 1.12;
+  }
+}
+
+/* Enlaces de texto: la línea dorada se dibuja de izquierda a derecha al pasar el mouse. */
+.link-underline {
+  position: relative;
+  padding-bottom: 3px;
+  transition: color 300ms ease;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 450ms var(--ease-out);
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Notas olfativas: salen en el orden en que el perfume se revela en la piel. */
+.note-in {
+  animation: fade-up 650ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+  --rise: 14px;
 }
 
 .bump {
@@ -187,11 +415,49 @@
   }
 }
 
+/* Botón "Catálogo" del inicio: oro viejo (un poco más apagado que el dorado de la marca),
+   un filo claro por dentro como metal cepillado, y crece y se encoge levemente sin parar. */
+.catalog-cta {
+  background: linear-gradient(135deg, #e6d3a0 0%, #c4a24f 48%, #8f6d2a 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 214, 0.35),
+    0 6px 22px -6px rgba(196, 162, 79, 0.45);
+  /* Llega detrás del logo y, ya quieto, empieza a latir. */
+  animation:
+    fade-up 800ms var(--ease-out) 350ms both,
+    cta-breathe 2.4s ease-in-out 1.5s infinite;
+  --rise: 16px;
+  transition: box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.catalog-cta:hover {
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 214, 0.5),
+    0 10px 30px -6px rgba(196, 162, 79, 0.6);
+}
+
+@keyframes cta-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
+  }
+
+  /* Un latido o un destello infinito de 1 ms parpadearía: aquí se apagan del todo. */
+  .catalog-cta,
+  .logo-shine {
+    animation: none !important;
   }
 }

@@ -4,3 +4,13 @@ dist
 .claude
 # Originales de los videos; la web usa las copias de public/assets/videos
 /VIDEOS/
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+.taste-skill/
+
+# Material local: capturas de revisión y el proyecto del reel (tiene su propia clave en .env)
+/capturas-volver/
+/marketing/

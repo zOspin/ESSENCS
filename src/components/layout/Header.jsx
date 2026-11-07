@@ -17,7 +17,7 @@ export default function Header({ cartCount, onOpenCart }) {
   }, [cartCount]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-gold-line bg-ink/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 bg-ink">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-8">
         <Logo />
 
@@ -27,17 +27,16 @@ export default function Header({ cartCount, onOpenCart }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Escríbenos por WhatsApp"
-            className="flex items-center gap-2 border border-gold-line px-3 py-2 text-xs font-display uppercase tracking-luxe text-gold transition-all duration-300 hover:border-gold hover:shadow-glow"
+            className="p-2 text-gold-soft transition-[color,scale] duration-300 hover:text-gold-light active:scale-[0.92] active:duration-100"
           >
-            <WhatsAppIcon />
-            <span className="hidden sm:inline">WhatsApp</span>
+            <WhatsAppIcon className="h-7 w-7" />
           </a>
 
           <button
             type="button"
             onClick={onOpenCart}
             aria-label={`Bolsa de compras, ${cartCount} artículos`}
-            className="relative cursor-pointer p-2 text-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+            className="relative cursor-pointer p-2 text-gold-soft transition-[color,scale] duration-300 hover:text-gold-light active:scale-[0.92] active:duration-100"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.1" aria-hidden="true">
               <path d="M5 8h14l-1.2 12H6.2L5 8z" />
@@ -45,7 +44,7 @@ export default function Header({ cartCount, onOpenCart }) {
             </svg>
             {cartCount > 0 && (
               <span
-                className={`absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-gold-gradient px-1 text-[10px] font-semibold text-ink ${bump ? 'bump' : ''}`}
+                className={`absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-gold-soft px-1 text-[13px] font-semibold text-ink ${bump ? 'bump' : ''}`}
               >
                 {cartCount}
               </span>

@@ -91,7 +91,7 @@ export default function ProductForm({ product, products, onSave, onClose }) {
         className="rise-in max-h-[92vh] w-full max-w-2xl overflow-y-auto border border-gold-line bg-surface"
       >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gold-line bg-surface px-6 py-5">
-          <h2 className="font-display text-lg tracking-luxe text-gold">
+          <h2 className="font-display text-lg tracking-[0.03em] text-gold">
             {editing ? 'Editar perfume' : 'Agregar perfume'}
           </h2>
           <CloseButton onClick={onClose} />
@@ -188,7 +188,7 @@ const INPUT =
 function Field({ label, wide = false, children }) {
   return (
     <label className={`block space-y-1.5 ${wide ? 'sm:col-span-2' : ''}`}>
-      <span className="text-[10px] uppercase tracking-[0.2em] text-muted">{label}</span>
+      <span className="text-[11px] uppercase tracking-[0.2em] text-muted">{label}</span>
       {children}
     </label>
   );

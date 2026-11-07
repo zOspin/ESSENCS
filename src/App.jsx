@@ -1,9 +1,11 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
 import IntroSplash from './components/layout/IntroSplash.jsx';
-import Vitrina from './components/vitrina/Vitrina.jsx';
+import HomeBackdrop from './components/layout/HomeBackdrop.jsx';
 import ControlBar from './components/catalog/ControlBar.jsx';
+import CollectionHero, { scrollToGrid } from './components/catalog/CollectionHero.jsx';
+import HowToOrder from './components/catalog/HowToOrder.jsx';
 import ProductGrid from './components/catalog/ProductGrid.jsx';
 import CartDrawer from './components/modals/CartDrawer.jsx';
 import FilterModal from './components/modals/FilterModal.jsx';
@@ -14,10 +16,12 @@ import {
   filterProducts,
   getCartCount,
   getProducts,
+  getTopNotes,
   sortProducts,
 } from './services/productService.js';
 import { buildOrderMessage, getWhatsAppUrl } from './services/whatsappService.js';
 import { loadCart, saveCart } from './utils/cartStorage.js';
+import { useExit } from './utils/useExit.js';
 import { BRAND } from './config/constants.js';
 
 // El panel de administración solo existe con `npm run dev`; en la web publicada no se incluye.
@@ -25,7 +29,7 @@ const ADMIN_ENABLED = import.meta.env.DEV;
 // Import dinámico condicionado: el build de producción elimina el panel por completo.
 const AdminPanel = ADMIN_ENABLED ? lazy(() => import('./components/admin/AdminPanel.jsx')) : null;
 
-// La página tiene dos vistas según el hash: el inicio (la vitrina) y la colección
+// La página tiene dos vistas según el hash: el inicio (logo y botón) y la colección
 // (#coleccion). Así el botón Atrás del navegador vuelve al inicio.
 const STORE_HASHES = ['#coleccion'];
 
@@ -37,6 +41,7 @@ export default function App() {
   const [loadError, setLoadError] = useState('');
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [gender, setGender] = useState(null);
+  const [note, setNote] = useState(null);
   const [sortBy, setSortBy] = useState('featured');
   const [cart, setCart] = useState([]);
   const [cartLoaded, setCartLoaded] = useState(false);
@@ -90,9 +95,15 @@ export default function App() {
   }, [cart]);
 
   const visible = useMemo(
-    () => sortProducts(filterProducts(products, filters, gender), sortBy),
-    [products, filters, gender, sortBy],
+    () => sortProducts(filterProducts(products, filters, gender, note), sortBy),
+    [products, filters, gender, note, sortBy],
   );
+  const topNotes = useMemo(() => getTopNotes(products, 10), [products]);
+  // Al elegir una nota en la portada, la página baja a los perfumes que la llevan.
+  const pickNote = useCallback((name) => {
+    setNote(name);
+    if (name) requestAnimationFrame(scrollToGrid);
+  }, []);
 
   const addToCart = useCallback((product) => {
     setCart((items) => {
@@ -113,9 +124,47 @@ export default function App() {
     setCart((items) => items.filter((i) => i.product.id !== id));
   }, []);
 
-  const closeCart = useCallback(() => setCartOpen(false), []);
-  const closeFilters = useCallback(() => setFiltersOpen(false), []);
-  const closeDetail = useCallback(() => setSelected(null), []);
+  // Bolsa, filtros y ficha se cierran con su animación de salida antes de desmontarse.
+  const [cartClosing, closeCart] = useExit(useCallback(() => setCartOpen(false), []));
+  const [filtersClosing, closeFilters] = useExit(useCallback(() => setFiltersOpen(false), []));
+  const [detailClosing, exitDetail] = useExit(useCallback(() => setSelected(null), []));
+  // Abrir un perfume agrega un paso al historial: el botón Atrás (o la flecha de la ficha)
+  // cierra la ficha y deja al cliente en la colección, donde estaba.
+  // El navegador, al volver, recoloca la página por su cuenta (y la manda casi arriba):
+  // la posición se guarda al abrir y se restaura exacta al cerrar.
+  const detailScroll = useRef(null);
+  const openDetail = useCallback((product) => {
+    detailScroll.current = window.scrollY;
+    window.history.pushState({ detail: product.id }, '');
+    setSelected(product);
+  }, []);
+  // Con el paso en el historial, se retrocede y el popstate hace la salida; sin él, se sale ya.
+  const closeDetail = useCallback(() => {
+    if (window.history.state?.detail) window.history.back();
+    else exitDetail();
+  }, [exitDetail]);
+  const onPopRef = useRef(null);
+  onPopRef.current = () => {
+    if (selected) exitDetail();
+  };
+
+  useLayoutEffect(() => {
+    if (selected || detailScroll.current === null) return;
+    const top = detailScroll.current;
+    detailScroll.current = null;
+    window.scrollTo({ top, behavior: 'instant' });
+    // El navegador puede recolocar la página justo después del Atrás: se corrige una vez más.
+    requestAnimationFrame(() => window.scrollTo({ top, behavior: 'instant' }));
+  }, [selected]);
+
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+    // Tras recargar con la ficha abierta, ese paso ya no tiene ficha que cerrar.
+    if (window.history.state?.detail) window.history.replaceState(null, '');
+    const onPop = () => onPopRef.current();
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   if (adminOpen) {
     return (
@@ -133,29 +182,56 @@ export default function App() {
         <CartDrawer
           items={cart}
           onClose={closeCart}
+          closing={cartClosing}
           onChangeQty={changeQty}
           onRemove={removeFromCart}
           onCheckout={checkout}
         />
       )}
       {filtersOpen && (
-        <FilterModal filters={filters} onApply={setFilters} onClose={closeFilters} />
+        <FilterModal filters={filters} onApply={setFilters} onClose={closeFilters} closing={filtersClosing} />
       )}
-      {selected && <ProductDetailModal product={selected} onClose={closeDetail} onAddToCart={addToCart} />}
+      {selected && (
+        <ProductDetailModal product={selected} onClose={closeDetail} closing={detailClosing} onAddToCart={addToCart} />
+      )}
       {introOpen && <IntroSplash onDone={closeIntro} />}
     </>
   );
 
-  // Inicio (prototipo): la vitrina de nichos iluminados. Al tocar un frasco se abre su ficha.
+  // Inicio: una sola pantalla con el logo grande sobre el fondo de paneles dorados y el botón
+  // al catálogo; no hay nada más al hacer scroll.
   if (!storeOpen) {
     return (
-      <div className="flex min-h-svh flex-col">
+      <div className="flex h-svh flex-col overflow-hidden">
         {header}
-        <main className="relative flex flex-1 flex-col">
+        {/* La entrada del inicio espera a que la intro se retire (ver animations.css). */}
+        <main
+          className={`relative flex flex-1 flex-col items-center justify-center gap-10 px-4 pb-10 ${introOpen ? '' : 'home-ready'}`}
+        >
+          <HomeBackdrop />
           <h1 className="sr-only">
             {BRAND.name} {BRAND.tagline}
           </h1>
-          <Vitrina products={products} ready={!introOpen} onAddToCart={addToCart} />
+          <div className="home-logo relative">
+            <img
+              src={BRAND.logoTransparent}
+              alt={`${BRAND.name} ${BRAND.tagline}`}
+              width="720"
+              height="720"
+              className="relative h-auto max-h-[60svh] w-[min(90vw,34rem)] object-contain"
+            />
+            <div
+              className="logo-shine pointer-events-none absolute inset-0"
+              style={{ '--logo': `url(${BRAND.logoTransparent})` }}
+            />
+          </div>
+          <a
+            href="#coleccion"
+            className="catalog-cta home-cta relative inline-block px-12 py-4 font-display text-lg font-semibold uppercase tracking-[0.32em] text-ink sm:px-16 sm:text-xl"
+          >
+            {/* El espaciado deja aire tras la última letra; el margen negativo lo quita para centrar. */}
+            <span className="-mr-[0.32em]">Catálogo</span>
+          </a>
         </main>
         {modals}
       </div>
@@ -167,40 +243,52 @@ export default function App() {
       {header}
 
       <main className="flex-1">
-        <section id="coleccion" className="mx-auto max-w-7xl px-4 py-16 sm:px-8">
-          <div className="mb-10 text-center">
-            <h2 className="font-display text-3xl tracking-[0.12em] text-gold-gradient sm:text-5xl">Nuestra Colección</h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold-gradient" />
+        <CollectionHero
+          products={products}
+          total={visible.length}
+          notes={topNotes}
+          note={note}
+          onNote={pickNote}
+          onExplore={openDetail}
+        />
+
+        {/* `perfumes` es donde bajan la portada y las notas. */}
+        <section aria-label="Perfumes" className="mx-auto max-w-7xl px-4 pb-32 sm:px-8">
+          <div id="perfumes" className="fade-up scroll-mt-24" style={{ '--d': '500ms' }}>
+            <ControlBar
+              resultCount={visible.length}
+              activeFilters={countActiveFilters(filters)}
+              gender={gender}
+              onGenderChange={setGender}
+              note={note}
+              onClearNote={() => setNote(null)}
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              onOpenFilters={() => setFiltersOpen(true)}
+            />
           </div>
 
-          <ControlBar
-            resultCount={visible.length}
-            activeFilters={countActiveFilters(filters)}
-            gender={gender}
-            onGenderChange={setGender}
-            sortBy={sortBy}
-            onSortChange={setSortBy}
-            onOpenFilters={() => setFiltersOpen(true)}
-          />
-
-          <div className="mt-8">
+          <div className="mt-12">
             {loadError ? (
-              <p className="border border-gold-line py-20 text-center text-sm text-muted">
+              <p className="bg-ink-2 py-20 text-center text-base text-soft">
                 No pudimos cargar el catálogo. Recarga la página o escríbenos por WhatsApp.
               </p>
             ) : (
               <ProductGrid
                 products={visible}
-                onExplore={setSelected}
+                onExplore={openDetail}
                 onAddToCart={addToCart}
                 onResetFilters={() => {
                   setFilters(DEFAULT_FILTERS);
                   setGender(null);
+                  setNote(null);
                 }}
               />
             )}
           </div>
         </section>
+
+        <HowToOrder />
       </main>
 
       <Footer />

@@ -9,11 +9,11 @@ export default function Logo() {
         alt=""
         width="44"
         height="44"
-        className="h-11 w-11 mix-blend-screen transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(212,175,55,0.6)]"
+        className="h-11 w-11 mix-blend-screen transition-[scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
       />
       <span className="leading-none">
-        <span className="block font-display text-xl tracking-[0.3em] text-gold-gradient">{BRAND.name}</span>
-        <span className="mt-1 block text-[9px] font-display uppercase tracking-[0.4em] text-muted">{BRAND.tagline}</span>
+        <span className="block font-display text-xl font-medium tracking-[0.3em] text-gold-soft">{BRAND.name}</span>
+        <span className="mt-1 block text-[13px] text-muted">{BRAND.tagline}</span>
       </span>
     </a>
   );

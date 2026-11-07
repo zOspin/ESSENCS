@@ -5,7 +5,10 @@ import Button from '../common/Button.jsx';
 import ProductImage from './ProductImage.jsx';
 import { triggerAura } from '../../utils/auraEffect.js';
 
-export default function ProductCard({ product, onExplore, onAddToCart }) {
+// Tarjeta sin marco: la foto sobre su papel claro y, debajo, la marca, el nombre, la familia y la
+// descripción, sobre el fondo de la página. `feature` la convierte en una pieza ancha (foto grande a un
+// lado, texto completo al otro) que corta la cuadrícula; `flip` pone la foto a la derecha.
+export default function ProductCard({ product, onExplore, onAddToCart, feature = false, flip = false }) {
   const [hovered, setHovered] = useState(false);
   const centered = useCenteredOnTouch(product.hoverVideo);
 
@@ -14,41 +17,97 @@ export default function ProductCard({ product, onExplore, onAddToCart }) {
     onExplore(product);
   }
 
+  const meta = [product.family, product.gender].filter(Boolean).join(' · ');
+
   return (
     <article
       ref={centered.ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group flex flex-col border border-gold-line bg-surface transition-all duration-300 hover:border-gold/60 hover:shadow-glow"
+      data-reveal
+      className={`group flex flex-col ${
+        feature ? 'sm:col-span-2 lg:col-span-3 lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-10' : ''
+      }`}
     >
       <button
         type="button"
         onClick={handleExplore}
         aria-label={`Ver detalles de ${product.name}`}
-        className="relative cursor-pointer overflow-hidden"
+        className={`relative cursor-pointer overflow-hidden ${feature ? `lg:col-span-7 ${flip ? 'lg:order-2' : ''}` : ''}`}
       >
         <ProductImage
           product={product}
-          className="h-72"
-          imgClassName="p-4 transition-transform duration-300 group-hover:scale-105"
+          className={feature ? 'h-80 sm:h-[26rem] lg:h-[34rem]' : 'h-80'}
+          imgClassName="p-6 transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
         />
-        {product.hoverVideo && <HoverVideo src={product.hoverVideo} active={hovered || centered.active} />}
-        {product.featured && <Badge className="absolute left-4 top-4 bg-ink/80">Destacado</Badge>}
-        <span className="absolute inset-x-0 bottom-0 bg-ink/80 py-2 text-center text-[10px] font-display uppercase tracking-luxe text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          Ver detalles
-        </span>
+        {product.hoverVideo && (
+          <HoverVideo
+            src={product.hoverVideo}
+            poster={`/assets/videos/posters/${product.hoverVideo.split('/').pop().replace('.mp4', '.jpg')}`}
+            active={hovered || centered.active}
+          />
+        )}
+        {product.featured && <Badge className="absolute left-0 top-0">Destacado</Badge>}
       </button>
 
-      <div className="flex flex-1 flex-col gap-4 border-t border-gold-line p-6">
-        <h3 className="font-display text-xl tracking-[0.1em] text-gold-gradient">{product.name}</h3>
-        {product.description && <ExpandableText text={product.description} />}
-        <div className="mt-auto flex justify-end">
-          <Button variant="outline" className="px-4 py-2.5" onClick={() => onAddToCart(product)}>
+      <div className={`flex flex-1 flex-col pt-5 ${feature ? 'lg:col-span-5 lg:pt-0' : ''}`}>
+        {product.brand && <p className="text-[15px] text-muted">{product.brand}</p>}
+        <h3
+          className={`mt-1 font-display font-medium tracking-[0.01em] text-gold-soft ${
+            feature ? 'text-[1.75rem] leading-tight sm:text-4xl' : 'text-[1.4rem] leading-snug'
+          }`}
+        >
+          <button
+            type="button"
+            onClick={handleExplore}
+            className="cursor-pointer text-left transition-colors duration-300 hover:text-gold-light"
+          >
+            {product.name}
+          </button>
+        </h3>
+        {meta && <p className="mt-1 text-[15px] text-muted">{meta}</p>}
+        {product.description &&
+          (feature ? (
+            <p className="mt-5 max-w-prose text-lg leading-relaxed text-soft">{product.description}</p>
+          ) : (
+            <ExpandableText text={product.description} />
+          ))}
+        {feature && <NoteLine product={product} />}
+        <div className="mt-6 flex items-center gap-5">
+          <Button variant={feature ? 'gold' : 'solid'} onClick={() => onAddToCart(product)}>
             Añadir a la bolsa
           </Button>
+          <button
+            type="button"
+            onClick={handleExplore}
+            className="link-underline cursor-pointer text-[15px] text-gold-soft"
+          >
+            Ver detalles
+          </button>
         </div>
       </div>
     </article>
+  );
+}
+
+// En la pieza ancha: las notas de salida, corazón y fondo en una línea cada una.
+function NoteLine({ product }) {
+  const p = product.olfactoryPyramid;
+  if (!p) return null;
+  const rows = [
+    ['Salida', p.topNotes],
+    ['Corazón', p.heartNotes],
+    ['Fondo', p.baseNotes],
+  ].filter(([, n]) => n?.length);
+  return (
+    <dl className="mt-6 space-y-2 text-base">
+      {rows.map(([label, notes]) => (
+        <div key={label} className="flex gap-4">
+          <dt className="w-20 shrink-0 text-muted">{label}</dt>
+          <dd className="text-soft">{notes.join(', ')}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -77,13 +136,13 @@ function ExpandableText({ text }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
-      <p className={`text-base leading-relaxed text-muted ${open ? '' : 'line-clamp-2'}`}>{text}</p>
+    <div className="mt-3">
+      <p className={`text-base leading-relaxed text-soft/85 ${open ? '' : 'line-clamp-2'}`}>{text}</p>
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="mt-2 cursor-pointer text-[11px] font-display uppercase tracking-[0.2em] text-gold transition-colors duration-300 hover:text-gold-light"
+        className="mt-1.5 cursor-pointer text-[15px] text-muted transition-colors duration-300 hover:text-gold-soft"
       >
         {open ? 'Ver menos' : 'Ver más'}
       </button>

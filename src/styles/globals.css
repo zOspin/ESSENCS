@@ -9,14 +9,17 @@
   --color-gold-light: #fff0b3;
   --color-gold-dark: #8c6211;
   --color-gold-line: rgba(212, 175, 55, 0.25);
-  --color-soft: #f3f3f5;
-  --color-muted: #9ca3af;
+  /* Dorado sólido para textos (nombres, títulos): el degradado queda solo en el logo y el botón Catálogo. */
+  --color-gold-soft: #e2c77c;
+  --color-soft: #f3f0ea;
+  /* Gris cálido, del lado del papel de las fotos, en vez del gris azulado de sistema. */
+  --color-muted: #a59e92;
 
-  /* Serif de la marca: Cinzel para títulos, menú y botones; Cormorant para los textos. */
-  --font-display: 'Cinzel', 'Playfair Display', serif;
-  --font-sans: 'Cormorant Garamond', 'Playfair Display', serif;
-  /* Sans original, solo para el botón "Descubrir la colección" del inicio. */
-  --font-ui: 'Montserrat', 'Inter', sans-serif;
+  /* Cinzel (mayúsculas romanas, como las letras del logo) para títulos y nombres;
+     Montserrat para textos, botones y etiquetas. */
+  --font-display: 'Cinzel', 'Trajan Pro', 'Times New Roman', serif;
+  --font-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-ui: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
   --shadow-glow: 0 0 24px rgba(212, 175, 55, 0.35);
 }
@@ -32,8 +35,30 @@
     min-height: 100vh;
   }
 
+  /* Títulos sin palabras sueltas al final; párrafos sin una palabra huérfana en la última línea. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* En el celular, el toque no deja el destello azul del navegador sobre botones y tarjetas. */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   ::selection {
     background: rgba(212, 175, 55, 0.35);
+  }
+
+  /* Barra de desplazamiento con los colores de la marca, en vez de la gris del sistema. */
+  html {
+    scrollbar-color: rgba(212, 175, 55, 0.45) var(--color-ink);
   }
 
   :focus-visible {

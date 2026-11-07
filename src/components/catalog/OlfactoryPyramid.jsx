@@ -1,3 +1,6 @@
+// Las notas salen en el orden en que el perfume se revela en la piel, tras posarse la ficha.
+const NOTE_DELAYS_MS = [200, 340, 450];
+
 const TIERS = [
   { key: 'topNotes', label: 'Notas de salida', hint: 'Los primeros minutos', width: 'w-1/2' },
   { key: 'heartNotes', label: 'Notas de corazón', hint: 'Las primeras horas', width: 'w-3/4' },
@@ -12,11 +15,11 @@ export default function OlfactoryPyramid({ pyramid }) {
       {tiers.map((tier, i) => (
         <li
           key={tier.key}
-          className={`rise-in ${tier.width} border border-gold-line bg-ink-2/70 px-4 py-4 text-center`}
-          style={{ animationDelay: `${i * 90}ms` }}
+          className={`note-in ${tier.width} bg-ink-2 px-4 py-4 text-center`}
+          style={{ '--d': `${NOTE_DELAYS_MS[i]}ms` }}
         >
-          <p className="font-display text-xs tracking-luxe text-gold">{tier.label}</p>
-          <p className="mt-0.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted">{tier.hint}</p>
+          <p className="text-[15px] font-medium text-gold-soft">{tier.label}</p>
+          <p className="mt-0.5 text-[13px] text-muted">{tier.hint}</p>
           <p className="mt-2 text-base text-soft">{pyramid[tier.key].join(' · ')}</p>
         </li>
       ))}

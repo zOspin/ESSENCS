@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import Overlay from '../common/Overlay.jsx';
-import CloseButton from '../common/CloseButton.jsx';
-import Badge from '../common/Badge.jsx';
 import Button from '../common/Button.jsx';
 import ProductImage from '../catalog/ProductImage.jsx';
 import OlfactoryPyramid from '../catalog/OlfactoryPyramid.jsx';
@@ -40,7 +38,7 @@ function ProductMedia({ product }) {
         <ProductImage product={product} className={MEDIA_SIZE} imgClassName="p-6" />
       )}
       {product.video && (
-        <div className="absolute left-4 top-4 flex gap-1">
+        <div className="absolute right-4 top-4 flex gap-1">
           <MediaTab active={showVideo} onClick={() => setShowVideo(true)}>
             Video
           </MediaTab>
@@ -59,8 +57,8 @@ function MediaTab({ active, onClick, children }) {
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`cursor-pointer border px-3 py-1.5 text-[10px] font-display uppercase tracking-[0.2em] transition-colors duration-300 ${
-        active ? 'border-gold bg-ink/90 text-gold' : 'border-gold-line bg-ink/70 text-soft hover:text-gold'
+      className={`cursor-pointer px-3 py-1.5 text-[13px] transition-colors duration-300 ${
+        active ? 'bg-gold-soft text-ink' : 'bg-ink/85 text-soft hover:text-gold-soft'
       }`}
     >
       {children}
@@ -68,40 +66,48 @@ function MediaTab({ active, onClick, children }) {
   );
 }
 
-export default function ProductDetailModal({ product, onClose, onAddToCart }) {
+export default function ProductDetailModal({ product, onClose, closing, onAddToCart }) {
   return (
-    <Overlay onClose={onClose} label={product.name}>
-      <div className="rise-in relative grid max-h-[90vh] w-full max-w-4xl overflow-y-auto border border-gold-line bg-surface md:grid-cols-2">
-        <div className="absolute right-4 top-4 z-10">
-          <CloseButton onClick={onClose} />
-        </div>
+    <Overlay onClose={onClose} closing={closing} label={product.name}>
+      {/* La flecha queda fuera de la zona con scroll: sigue a la vista al bajar por la ficha. */}
+      <div className="rise-in relative w-full max-w-4xl">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Volver a los perfumes"
+          className="absolute left-4 top-4 z-10 flex h-9 cursor-pointer items-center gap-2 bg-ink/90 px-3 text-gold-soft transition-[color,scale] duration-300 hover:text-gold-light active:scale-[0.95] active:duration-100"
+        >
+          <svg viewBox="0 0 16 12" className="h-3 w-4" aria-hidden="true">
+            <path d="M6 1L1 6l5 5M1 6h14" fill="none" stroke="currentColor" strokeWidth="1.3" />
+          </svg>
+          <span className="hidden text-[15px] sm:inline">Volver</span>
+        </button>
 
-        <ProductMedia product={product} />
+        <div className="grid max-h-[90vh] overflow-y-auto bg-surface md:grid-cols-2">
+          <ProductMedia product={product} />
 
-        <div className="flex flex-col gap-6 border-t border-gold-line p-8 md:border-l md:border-t-0">
-          <div className="space-y-2 pr-10">
-            <div className="flex flex-wrap gap-2">
-              {product.family && <Badge>{product.family}</Badge>}
-              {product.gender && <Badge>{product.gender}</Badge>}
+          <div className="flex flex-col gap-6 p-8">
+            <div className="space-y-2">
+              {product.brand && <p className="text-base text-muted">{product.brand}</p>}
+              <h2 className="font-display text-4xl font-medium leading-[1.1] tracking-[0.01em] text-gold-soft">{product.name}</h2>
+              <p className="text-base text-muted">{[product.family, product.gender].filter(Boolean).join(' · ')}</p>
             </div>
-            {product.brand && <p className="pt-2 text-xs font-display uppercase tracking-luxe text-muted">{product.brand}</p>}
-            <h2 className="font-display text-3xl tracking-[0.1em] text-gold-gradient">{product.name}</h2>
-          </div>
 
-          {product.description && <p className="text-lg leading-relaxed text-soft">{product.description}</p>}
+            {product.description && <p className="text-lg leading-relaxed text-soft">{product.description}</p>}
 
-          {product.olfactoryPyramid && <OlfactoryPyramid pyramid={product.olfactoryPyramid} />}
+            {product.olfactoryPyramid && <OlfactoryPyramid pyramid={product.olfactoryPyramid} />}
 
-          <div className="mt-auto flex items-center justify-between gap-4 border-t border-gold-line pt-6">
-            <span className="text-sm leading-relaxed text-muted">Precio y disponibilidad por WhatsApp</span>
-            <Button
-              onClick={() => {
-                onAddToCart(product);
-                onClose();
-              }}
-            >
-              Añadir a la bolsa
-            </Button>
+            <div className="mt-auto flex flex-wrap items-center justify-between gap-4 bg-ink-2 p-4">
+              <span className="text-[15px] leading-relaxed text-muted">Precio y disponibilidad por WhatsApp</span>
+              <Button
+                onClick={() => {
+                  onAddToCart(product);
+                  onClose();
+                }}
+              >
+                Añadir a la bolsa
+              </Button>
+            </div>
           </div>
         </div>
       </div>

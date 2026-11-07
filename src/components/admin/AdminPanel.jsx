@@ -78,7 +78,7 @@ export default function AdminPanel({ products, onProductsChange }) {
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h1 className="font-display text-2xl tracking-luxe text-soft">Catálogo</h1>
+            <h1 className="font-display text-2xl tracking-[0.03em] text-soft">Catálogo</h1>
             <p className="mt-2 text-sm text-muted">
               {products.length} perfumes
               {missingDescription > 0 && ` · ${missingDescription} sin descripción`}
@@ -100,10 +100,10 @@ export default function AdminPanel({ products, onProductsChange }) {
             <li key={product.id} className="flex flex-wrap items-center gap-4 p-4 sm:flex-nowrap">
               <ProductImage product={product} className="h-16 w-14 shrink-0" imgClassName="p-0.5" />
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-muted">
+                <p className="text-[11px] uppercase tracking-[0.15em] text-muted">
                   {[product.brand, product.gender, product.family].filter(Boolean).join(' · ')}
                 </p>
-                <p className="truncate font-display tracking-[0.08em] text-soft">{product.name}</p>
+                <p className="truncate font-display tracking-[0.01em] text-soft">{product.name}</p>
                 <p className="truncate text-xs text-muted">{product.description || 'Sin descripción'}</p>
               </div>
 
@@ -158,7 +158,7 @@ function RowButton({ onClick, danger = false, children }) {
     <button
       type="button"
       onClick={onClick}
-      className={`cursor-pointer border px-3 py-2 text-[10px] uppercase tracking-[0.15em] transition-colors duration-300 ${
+      className={`cursor-pointer border px-3 py-2 text-[11px] uppercase tracking-[0.15em] transition-colors duration-300 ${
         danger
           ? 'border-red-400/30 text-red-300 hover:border-red-400'
           : 'border-gold-line text-soft hover:border-gold hover:text-gold'

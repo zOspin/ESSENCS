@@ -4,7 +4,7 @@ import { playWithSound, stopVideo } from '../../utils/videoSound.js';
 // Video con sonido que aparece sobre la foto mientras `active` es true (mouse encima de la tarjeta
 // en computador, tarjeta en el centro de la pantalla en el celular).
 // El archivo no se descarga hasta la primera vez que se activa, para no cargar videos que nadie mira.
-export default function HoverVideo({ src, active }) {
+export default function HoverVideo({ src, poster, active }) {
   const videoRef = useRef(null);
   const [requested, setRequested] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -33,6 +33,7 @@ export default function HoverVideo({ src, active }) {
     <video
       ref={videoRef}
       src={src}
+      poster={poster}
       loop
       playsInline
       preload="auto"

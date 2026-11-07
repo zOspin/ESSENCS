@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 
 // Fondo oscuro compartido por drawers y modales: cierra con Escape o clic fuera
 // y bloquea el scroll de la página mientras está abierto.
-export default function Overlay({ onClose, align = 'center', label, children }) {
+// `closing`: se está yendo; animations.css hace la salida (todo a la vez, por donde entró).
+export default function Overlay({ onClose, align = 'center', label, closing = false, children }) {
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', onKey);
@@ -21,7 +22,7 @@ export default function Overlay({ onClose, align = 'center', label, children }) 
       role="dialog"
       aria-modal="true"
       aria-label={label}
-      className={`fade-in fixed inset-0 z-50 flex bg-black/70 backdrop-blur-sm ${placement}`}
+      className={`fade-in fixed inset-0 z-50 flex bg-black/70 backdrop-blur-sm ${placement} ${closing ? 'is-closing pointer-events-none' : ''}`}
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       {children}

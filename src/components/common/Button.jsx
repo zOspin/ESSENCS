@@ -1,9 +1,12 @@
 import { triggerAura } from '../../utils/auraEffect.js';
 
+// Botones planos, de esquinas rectas como el resto de la tienda.
+// gold: la acción principal (pedir, aplicar). solid: secundaria, un tono sobre el fondo. ghost: solo texto.
 const VARIANTS = {
-  gold: 'bg-gold-gradient text-ink hover:shadow-glow',
-  outline: 'border border-gold-line text-gold hover:border-gold hover:shadow-glow',
-  ghost: 'text-soft hover:text-gold',
+  gold: 'bg-gold-soft text-ink hover:brightness-110',
+  solid: 'bg-surface-2 text-soft hover:bg-gold-soft hover:text-ink',
+  outline: 'bg-surface-2 text-soft hover:bg-gold-soft hover:text-ink',
+  ghost: 'text-soft hover:text-gold-soft',
 };
 
 export default function Button({
@@ -23,7 +26,7 @@ export default function Button({
     <button
       type={type}
       onClick={handleClick}
-      className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-medium font-display uppercase tracking-luxe transition-all duration-300 ease-in-out cursor-pointer disabled:opacity-40 disabled:pointer-events-none ${VARIANTS[variant]} ${className}`}
+      className={`relative inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden px-6 py-3 font-ui text-[15px] font-medium transition-[background-color,color,filter,scale] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] active:duration-100 disabled:pointer-events-none disabled:opacity-40 ${VARIANTS[variant]} ${className}`}
       {...props}
     >
       {children}

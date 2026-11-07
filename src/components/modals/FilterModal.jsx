@@ -7,7 +7,7 @@ import { FAMILIES } from '../../config/constants.js';
 import { DEFAULT_FILTERS } from '../../services/productService.js';
 
 // Edita una copia local y solo la aplica al pulsar "Aplicar".
-export default function FilterModal({ filters, onApply, onClose }) {
+export default function FilterModal({ filters, onApply, onClose, closing }) {
   const [draft, setDraft] = useState(filters);
 
   function toggleFamily(family) {
@@ -18,16 +18,16 @@ export default function FilterModal({ filters, onApply, onClose }) {
   }
 
   return (
-    <Overlay onClose={onClose} label="Filtros">
-      <div className="rise-in w-full max-w-lg border border-gold-line bg-surface">
-        <div className="flex items-center justify-between border-b border-gold-line px-6 py-5">
-          <h2 className="font-display text-lg tracking-luxe text-gold">Filtros</h2>
+    <Overlay onClose={onClose} closing={closing} label="Familias olfativas">
+      <div className="rise-in w-full max-w-lg bg-surface">
+        <div className="flex items-center justify-between px-6 pb-2 pt-6">
+          <h2 className="font-display text-3xl text-soft">Familias olfativas</h2>
           <CloseButton onClick={onClose} />
         </div>
 
         <div className="px-6 py-6">
           <fieldset>
-            <legend className="mb-4 text-xs font-display uppercase tracking-luxe text-muted">Familia olfativa</legend>
+            <legend className="mb-4 text-base text-muted">Elige una o varias.</legend>
             <div className="flex flex-wrap gap-2">
               {FAMILIES.map((family) => (
                 <Chip key={family} active={draft.families.includes(family)} onClick={() => toggleFamily(family)}>
@@ -38,8 +38,8 @@ export default function FilterModal({ filters, onApply, onClose }) {
           </fieldset>
         </div>
 
-        <div className="flex gap-3 border-t border-gold-line px-6 py-5">
-          <Button variant="outline" className="flex-1" onClick={() => setDraft(DEFAULT_FILTERS)}>
+        <div className="flex gap-3 px-6 pb-6">
+          <Button variant="solid" className="flex-1" onClick={() => setDraft(DEFAULT_FILTERS)}>
             Limpiar
           </Button>
           <Button
