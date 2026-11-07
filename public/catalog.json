@@ -153,6 +153,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/lattafa-asad-bourbon.jpg",
+    "video": "/assets/videos/lattafa-asad-bourbon.mp4",
+    "hoverVideo": "/assets/videos/lattafa-asad-bourbon.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Pimienta rosa",
@@ -209,6 +211,8 @@
     "gender": "Hombre",
     "featured": false,
     "image": "/assets/products/armaf-odyssey-mandarin.jpg",
+    "video": "/assets/videos/armaf-odyssey-mandarin.mp4",
+    "hoverVideo": "/assets/videos/armaf-odyssey-mandarin.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Salvia",
@@ -238,6 +242,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/ariana-grande-cloud.jpg",
+    "video": "/assets/videos/ariana-grande-cloud.mp4",
+    "hoverVideo": "/assets/videos/ariana-grande-cloud.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Lavanda",
@@ -402,6 +408,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/armaf-yum-yum.jpg",
+    "video": "/assets/videos/armaf-yum-yum.mp4",
+    "hoverVideo": "/assets/videos/armaf-yum-yum.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Frutos rojos",
@@ -514,6 +522,8 @@
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-badee-honor-glory.jpg",
+    "video": "/assets/videos/lattafa-badee-honor-glory.mp4",
+    "hoverVideo": "/assets/videos/lattafa-badee-honor-glory.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Piña",
@@ -597,6 +607,8 @@
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/armaf-odyssey-dubai-chocolat.jpg",
+    "video": "/assets/videos/armaf-odyssey-dubai-chocolat.mp4",
+    "hoverVideo": "/assets/videos/armaf-odyssey-dubai-chocolat.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Café",
@@ -626,6 +638,8 @@
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/stallion-53.jpg",
+    "video": "/assets/videos/stallion-53.mp4",
+    "hoverVideo": "/assets/videos/stallion-53.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Cardamomo",
