@@ -36,6 +36,9 @@ const STORE_HASHES = ['#coleccion'];
 // La intro se salta si el sistema pide menos movimiento.
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Rayos del abanico art déco que corona el botón del inicio, del centro hacia afuera.
+const FAN_RAYS = ['M60 34L60 2', 'M60 34L38 6', 'M60 34L82 6', 'M60 34L20 14', 'M60 34L100 14', 'M60 34L8 26', 'M60 34L112 26'];
+
 export default function App() {
   const [products, setProducts] = useState([]);
   const [loadError, setLoadError] = useState('');
@@ -225,19 +228,21 @@ export default function App() {
               style={{ '--logo': `url(${BRAND.logoTransparent})` }}
             />
           </div>
-          {/* Botón "joya": dorado metálico dentro de un segundo marco fino con rombos a los lados. */}
-          <a href="#coleccion" className="catalog-cta home-cta group relative inline-block p-[7px]">
-            <span className="catalog-cta-face relative flex items-center gap-4 overflow-hidden px-7 py-4 font-display text-[15px] font-bold tracking-[0.22em] text-ink sm:px-10 sm:text-lg sm:tracking-[0.26em]">
-              <span className="catalog-cta-shine pointer-events-none absolute inset-0" aria-hidden="true" />
-              <span className="relative whitespace-nowrap">Explorar perfumes</span>
-              {/* La flecha avanza al pasar el mouse: invita a seguir. */}
-              <svg
-                viewBox="0 0 22 12"
-                aria-hidden="true"
-                className="relative h-3 w-[22px] shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5"
-              >
-                <path d="M0 6h20M15 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-              </svg>
+          {/* Botón art déco: esquinas cortadas como los paneles del fondo, filo dorado, letras doradas
+              sobre negro y un abanico encima que se dibuja al entrar. */}
+          <a href="#coleccion" className="catalog-cta home-cta group relative inline-flex flex-col items-center">
+            <svg viewBox="0 0 120 34" aria-hidden="true" className="catalog-fan -mb-px h-[30px] w-[106px] sm:h-[34px] sm:w-[120px]">
+              {FAN_RAYS.map((d, i) => (
+                <path key={d} d={d} pathLength="1" className="home-line" style={{ '--d': `${700 + i * 60}ms` }} />
+              ))}
+              <path d="M52 34a8 8 0 0 1 16 0" pathLength="1" className="home-line" style={{ '--d': '650ms' }} />
+            </svg>
+            <span className="catalog-cta-frame block p-[2px]">
+              <span className="catalog-cta-face relative block overflow-hidden px-11 py-4 font-display text-lg font-semibold uppercase tracking-[0.3em] sm:px-14 sm:text-xl">
+                <span className="catalog-cta-shine pointer-events-none absolute inset-0" aria-hidden="true" />
+                {/* El espaciado deja aire tras la última letra; el margen negativo lo quita para centrar. */}
+                <span className="relative -mr-[0.3em]">Catálogo</span>
+              </span>
             </span>
           </a>
         </main>
