@@ -225,12 +225,20 @@ export default function App() {
               style={{ '--logo': `url(${BRAND.logoTransparent})` }}
             />
           </div>
-          <a
-            href="#coleccion"
-            className="catalog-cta home-cta relative inline-block px-12 py-4 font-display text-lg font-semibold uppercase tracking-[0.32em] text-ink sm:px-16 sm:text-xl"
-          >
-            {/* El espaciado deja aire tras la última letra; el margen negativo lo quita para centrar. */}
-            <span className="-mr-[0.32em]">Catálogo</span>
+          {/* Botón "joya": dorado metálico dentro de un segundo marco fino con rombos a los lados. */}
+          <a href="#coleccion" className="catalog-cta home-cta group relative inline-block p-[7px]">
+            <span className="catalog-cta-face relative flex items-center gap-4 overflow-hidden px-7 py-4 font-display text-[15px] font-bold tracking-[0.22em] text-ink sm:px-10 sm:text-lg sm:tracking-[0.26em]">
+              <span className="catalog-cta-shine pointer-events-none absolute inset-0" aria-hidden="true" />
+              <span className="relative whitespace-nowrap">Explorar perfumes</span>
+              {/* La flecha avanza al pasar el mouse: invita a seguir. */}
+              <svg
+                viewBox="0 0 22 12"
+                aria-hidden="true"
+                className="relative h-3 w-[22px] shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5"
+              >
+                <path d="M0 6h20M15 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+              </svg>
+            </span>
           </a>
         </main>
         {modals}

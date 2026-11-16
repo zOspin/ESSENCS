@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-test('el inicio muestra el logo y el botón Catálogo lleva a la colección', async ({ page }) => {
+test('el inicio muestra el logo y el botón Explorar perfumes lleva a la colección', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('img', { name: /ESSENCS/ }).first()).toBeVisible();
   await expect(page.getByRole('link', { name: /Escríbenos por WhatsApp/ })).toBeVisible();
   // El botón late sin parar y Playwright espera a que esté quieto: se fuerza el clic.
-  await page.getByRole('link', { name: 'Catálogo', exact: true }).click({ force: true });
+  await page.getByRole('link', { name: 'Explorar perfumes', exact: true }).click({ force: true });
   await expect(page).toHaveURL(/#coleccion/);
   await expect(page.getByRole('heading', { name: /Colección/i })).toBeVisible();
 });

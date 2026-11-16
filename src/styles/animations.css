@@ -415,26 +415,86 @@
   }
 }
 
-/* Botón "Catálogo" del inicio: oro viejo (un poco más apagado que el dorado de la marca),
-   un filo claro por dentro como metal cepillado, y crece y se encoge levemente sin parar. */
+/* Botón "Explorar perfumes" del inicio, estilo joya: dorado metálico (con un filo claro por dentro,
+   como metal pulido) dentro de un segundo marco fino con un rombo a cada lado. Llega detrás del logo,
+   luego late suave y un destello lo cruza cada pocos segundos. */
 .catalog-cta {
-  background: linear-gradient(135deg, #e6d3a0 0%, #c4a24f 48%, #8f6d2a 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 244, 214, 0.35),
-    0 6px 22px -6px rgba(196, 162, 79, 0.45);
-  /* Llega detrás del logo y, ya quieto, empieza a latir. */
+  border: 1px solid rgba(226, 199, 124, 0.7);
+  text-transform: uppercase;
   animation:
     fade-up 800ms var(--ease-out) 350ms both,
-    cta-breathe 2.4s ease-in-out 1.5s infinite;
+    cta-breathe 2.6s ease-in-out 1.5s infinite;
   --rise: 16px;
-  transition: box-shadow 0.3s ease, filter 0.3s ease;
+  transition: border-color 0.4s ease;
+}
+
+.catalog-cta::before,
+.catalog-cta::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  background: #e2c77c;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.catalog-cta::before {
+  left: -5px;
+}
+
+.catalog-cta::after {
+  right: -5px;
+}
+
+.catalog-cta-face {
+  background: linear-gradient(135deg, #f3e2b0 0%, #d4b35c 30%, #a8822f 55%, #e6cf8b 78%, #8f6d2a 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 214, 0.45),
+    0 10px 30px -8px rgba(212, 175, 55, 0.55);
+  transition: filter 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Destello: una franja de luz que cruza el dorado; pasa y descansa el resto del ciclo. */
+.catalog-cta-shine {
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 250, 230, 0.85) 50%, transparent 62%) no-repeat;
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  mix-blend-mode: soft-light;
+}
+
+.home-ready .catalog-cta-shine {
+  animation: cta-shine 5s var(--ease-out) 1.8s infinite;
+}
+
+@keyframes cta-shine {
+  0% {
+    background-position: 160% 0;
+  }
+  28%,
+  100% {
+    background-position: -60% 0;
+  }
 }
 
 .catalog-cta:hover {
-  filter: brightness(1.06);
+  border-color: #f0dc9c;
+}
+
+.catalog-cta:hover::before {
+  transform: translateY(-50%) rotate(225deg);
+}
+
+.catalog-cta:hover::after {
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.catalog-cta:hover .catalog-cta-face {
+  filter: brightness(1.08);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 244, 214, 0.5),
-    0 10px 30px -6px rgba(196, 162, 79, 0.6);
+    inset 0 0 0 1px rgba(255, 244, 214, 0.6),
+    0 14px 38px -8px rgba(212, 175, 55, 0.7);
 }
 
 @keyframes cta-breathe {
@@ -443,7 +503,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.06);
+    transform: scale(1.04);
   }
 }
 
@@ -457,6 +517,7 @@
 
   /* Un latido o un destello infinito de 1 ms parpadearía: aquí se apagan del todo. */
   .catalog-cta,
+  .catalog-cta-shine,
   .logo-shine {
     animation: none !important;
   }
