@@ -298,6 +298,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-yara-tous.jpg",
+    "video": "/assets/videos/lattafa-yara-tous.mp4",
+    "hoverVideo": "/assets/videos/lattafa-yara-tous.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Mango",
@@ -326,6 +328,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-haya.jpg",
+    "video": "/assets/videos/lattafa-haya.mp4",
+    "hoverVideo": "/assets/videos/lattafa-haya.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Naranja roja",
@@ -356,6 +360,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-eclaire.jpg",
+    "video": "/assets/videos/lattafa-eclaire.mp4",
+    "hoverVideo": "/assets/videos/lattafa-eclaire.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Caramelo",
@@ -383,6 +389,8 @@
     "gender": "Mujer",
     "featured": false,
     "image": "/assets/products/lattafa-badee-noble-blush.jpg",
+    "video": "/assets/videos/lattafa-badee-noble-blush.mp4",
+    "hoverVideo": "/assets/videos/lattafa-badee-noble-blush.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Leche de rosas"
@@ -553,6 +561,8 @@
     "gender": "Unisex",
     "featured": false,
     "image": "/assets/products/lattafa-badee-sublime.jpg",
+    "video": "/assets/videos/lattafa-badee-sublime.mp4",
+    "hoverVideo": "/assets/videos/lattafa-badee-sublime.mp4",
     "olfactoryPyramid": {
       "topNotes": [
         "Manzana",
